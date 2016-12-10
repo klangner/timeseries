@@ -1,19 +1,33 @@
 [![Build Status](https://travis-ci.org/klangner/time-series-lib.svg?branch=master)](https://travis-ci.org/klangner/time-series-lib)
+[![Hackage](https://img.shields.io/hackage/v/time-series-lib.svg)](https://hackage.haskell.org/package/time-series-lib)
 
-# Introduction
+# Welcome to Haskell Time Series library
 
-Haskell library for processing Time Series data.
 Basic functionality:
   * Get series size
 
 
 ## Installation
-The library can be installed from [Hackage](http://hackage.haskell.org/package/time-series-lib) with the command:
 
 ```sh
-cabal install time-series-lib
+stack build
+stack test
 ```
 
-## Redistributing
 
-radium source code is distributed under the BSD3 License.
+# Join in!
+
+We are happy to receive bug reports, fixes, documentation enhancements,
+and other improvements.
+
+Please report bugs via the
+[github issue tracker](http://github.com/klangner/time-series-lib/issues).
+
+Master [git repository](http://github.com/klangner/time-series-lib):
+
+* `git clone git://github.com/klangner/time-series-lib.git`
+
+
+# Redistributing
+
+time-series-lib source code is distributed under the BSD3 License.

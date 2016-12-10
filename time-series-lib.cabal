@@ -4,7 +4,7 @@ synopsis:             Library for Time Series processing
 License:        BSD3
 License-file:   LICENSE
 Extra-Source-Files:
-                CHANGES
+                CHANGES.md
 description:
     This library contains:
     .

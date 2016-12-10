@@ -8,28 +8,47 @@ Definition and basic operation on Series.
 -}
 
 module Data.TimeSeries.Series
-    ( Index
-    , DataValues
+    ( DataPoints
+    , Index
     , Series
+    , valueAt
     , series
     , size
     ) where
 
-import qualified Prelude as P
+import Prelude
+import qualified Data.List as L
 
 
-type Timestamp = P.Integer
+type Timestamp = Integer
+type Value = Double
 type Index = [Timestamp]
-type DataValues = [P.Double]
+type DataPoints = [Value]
 
-data Series = Series Index DataValues
+data Series = Series Index DataPoints
 
 
 -- | Create new series
-series :: Index -> DataValues -> Series
+-- >series [1, 2, 3] [41.3, 52.22, 3.0] == Series [1, 2, 3] [41.3, 52.22, 3.0]
+series :: Index -> DataPoints -> Series
 series idx vs = Series idx vs
 
 
 -- | Get series size
-size :: Series -> P.Int
-size (Series idx _) = P.length idx
+-- Example:
+--
+-- >size (Series [1, 2, 3] [41.3, 52.22, 3.0]) == 3
+--
+size :: Series -> Int
+size (Series idx _) = length idx
+
+
+-- | Return data point value at given index
+-- Example:
+--
+-- >valueAt (Series [1, 2, 3] [41.3, 52.22, 3.0]) 2 == Just 52.22
+-- >valueAt (Series [1, 2, 3] [41.3, 52.22, 3.0]) 5 == Nothing
+--
+valueAt :: Series -> Timestamp -> Maybe Value
+valueAt (Series idx xs) ts = fmap (\i -> xs !! i) ix
+    where ix = L.elemIndex ts idx
