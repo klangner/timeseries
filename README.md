@@ -10,6 +10,7 @@ Basic functionality:
 ## Installation
 
 ```sh
+stack setup
 stack build
 stack test
 ```
