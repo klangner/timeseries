@@ -15,6 +15,7 @@ module Data.TimeSeries.Series
     , valueAt
     , series
     , size
+    , slice
     ) where
 
 import Prelude
@@ -25,10 +26,10 @@ type Timestamp = Word64
 type Value = Double
 data DataPoint = DP {-# UNPACK #-} !Timestamp
                     {-# UNPACK #-} !Value
-                 deriving (Show)
+                 deriving (Show, Eq)
 
 data Series = Series [DataPoint]
-    deriving (Show)
+    deriving (Show, Eq)
 
 
 -- | Create a new series
@@ -58,3 +59,14 @@ valueAt :: Series -> Timestamp -> Maybe Value
 valueAt (Series xs) ts = safeHead [y | DP x y <- xs, x == ts]
     where safeHead [] = Nothing
           safeHead (y:ys) = Just y
+
+
+-- | Return series subset
+-- Complexity O(n)
+--
+-- >slice (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 2 3 == Series [DP 2 52.22, DP 3 3.0]
+-- >slice (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 5 23 == Series []
+--
+slice :: Series -> Timestamp -> Timestamp -> Series
+slice (Series xs) start end = Series [DP x y | DP x y <- xs, x >= start && x <= end]
+

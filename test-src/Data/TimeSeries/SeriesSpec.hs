@@ -23,3 +23,11 @@ spec = do
         let idx = [10, 20, 30]
         let values = [10.0, 12.0, 32.4]
         TS.valueAt (TS.series idx values) 1234 `shouldBe` Nothing
+
+    it "return subset" $ do
+        let xs = TS.series [1..5] [10.0, 1.2, 32.4, 0.65, 11.0]
+        TS.size (TS.slice xs 2 3) `shouldBe` 2
+
+    it "return empty subset" $ do
+        let xs = TS.series [1..5] [10.0, 1.2, 32.4, 0.65, 11.0]
+        TS.slice xs 12 34 `shouldBe` TS.series [] []

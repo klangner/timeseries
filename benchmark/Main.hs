@@ -13,5 +13,6 @@ main = defaultMain
     [ bgroup "Big series"
         [ bench "size"  $ nf TS.size bigSeries
         , bench "valueAt"  $ nf (\xs -> TS.valueAt xs (10^6-1)) bigSeries
+        , bench "slice"  $ nf (\xs -> TS.valueAt (TS.slice xs 2 (10^6-2)) 1) bigSeries
         ]
     ]
