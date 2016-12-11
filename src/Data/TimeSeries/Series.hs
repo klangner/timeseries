@@ -31,8 +31,10 @@ data Series = Series [DataPoint]
     deriving (Show)
 
 
--- | Create new series
--- >series [1, 2, 3] [41.3, 52.22, 3.0] == Series [1, 2, 3] [41.3, 52.22, 3.0]
+-- | Create a new series
+--
+-- >series [1, 2, 3] [41.3, 52.22, 3.0] == Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]
+--
 series :: [Timestamp] -> [Value] -> Series
 series idx vs = Series (zipWith DP idx vs)
 
@@ -40,7 +42,7 @@ series idx vs = Series (zipWith DP idx vs)
 -- | Get series size.
 -- Complexity O(n)
 --
--- >size (Series [1, 2, 3] [41.3, 52.22, 3.0]) == 3
+-- >size (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) == 3
 --
 size :: Series -> Int
 size (Series xs) = length xs
@@ -49,8 +51,8 @@ size (Series xs) = length xs
 -- | Return data point value at given index
 -- Complexity O(n)
 --
--- >valueAt (Series [1, 2, 3] [41.3, 52.22, 3.0]) 2 == Just 52.22
--- >valueAt (Series [1, 2, 3] [41.3, 52.22, 3.0]) 5 == Nothing
+-- >valueAt (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 2 == Just 52.22
+-- >valueAt (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 5 == Nothing
 --
 valueAt :: Series -> Timestamp -> Maybe Value
 valueAt (Series xs) ts = safeHead [y | DP x y <- xs, x == ts]
