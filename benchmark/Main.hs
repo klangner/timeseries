@@ -10,7 +10,8 @@ bigSeries = TS.series [1..10^n] [1..10^n]
 
 main :: IO ()
 main = defaultMain
-    [ bgroup "Big series (10^6)"
+    [ bgroup "Big series"
         [ bench "size"  $ nf TS.size bigSeries
+        , bench "valueAt"  $ nf (\xs -> TS.valueAt xs (10^6-1)) bigSeries
         ]
     ]

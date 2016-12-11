@@ -31,3 +31,15 @@ Browse the results
 ```sh
 firefox output/bench.html
 ```
+
+## Memory usage
+
+For time series with 1M data points:
+```
+   1,427,244,008 bytes allocated in the heap
+     369,940,160 bytes copied during GC
+      80,176,216 bytes maximum residency (12 sample(s))
+      11,539,240 bytes maximum slop
+             159 MB total memory in use (0 MB lost due to fragmentation)
+```
+
