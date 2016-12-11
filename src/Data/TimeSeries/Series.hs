@@ -25,6 +25,7 @@ type Value = Double
 type Index = [Timestamp]
 type DataPoints = [Value]
 
+-- Memory size: ???
 data Series = Series Index DataPoints
 
 
@@ -34,8 +35,8 @@ series :: Index -> DataPoints -> Series
 series idx vs = Series idx vs
 
 
--- | Get series size
--- Example:
+-- | Get series size.
+-- Complexity O(n)
 --
 -- >size (Series [1, 2, 3] [41.3, 52.22, 3.0]) == 3
 --
@@ -44,7 +45,7 @@ size (Series idx _) = length idx
 
 
 -- | Return data point value at given index
--- Example:
+-- Complexity O(n)
 --
 -- >valueAt (Series [1, 2, 3] [41.3, 52.22, 3.0]) 2 == Just 52.22
 -- >valueAt (Series [1, 2, 3] [41.3, 52.22, 3.0]) 5 == Nothing

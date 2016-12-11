@@ -5,6 +5,7 @@
 
 Basic functionality:
   * Get series size
+  * Get value at given index
 
 
 ## Installation
