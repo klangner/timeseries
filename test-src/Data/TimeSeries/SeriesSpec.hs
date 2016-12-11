@@ -31,3 +31,11 @@ spec = do
     it "return empty subset" $ do
         let xs = TS.series [1..5] [10.0, 1.2, 32.4, 0.65, 11.0]
         TS.slice xs 12 34 `shouldBe` TS.series [] []
+
+    it "maximum value" $ do
+        let xs = TS.series [1..5] [10.0, 1.2, 32.4, 0.65, 11.0]
+        TS.max xs `shouldBe` 32.4
+
+    it "minimum value" $ do
+        let xs = TS.series [1..5] [10.0, 1.2, 32.4, 0.65, 11.0]
+        TS.min xs `shouldBe` 0.65
