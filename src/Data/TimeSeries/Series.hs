@@ -8,31 +8,33 @@ Definition and basic operation on Series.
 -}
 
 module Data.TimeSeries.Series
-    ( DataPoints
-    , Index
+    ( DataPoint
     , Series
+    , Timestamp
+    , Value
     , valueAt
     , series
     , size
     ) where
 
 import Prelude
-import qualified Data.List as L
+import Data.Word (Word64)
 
 
-type Timestamp = Integer
+type Timestamp = Word64
 type Value = Double
-type Index = [Timestamp]
-type DataPoints = [Value]
+data DataPoint = DP {-# UNPACK #-} !Timestamp
+                    {-# UNPACK #-} !Value
+                 deriving (Show)
 
--- Memory size: ???
-data Series = Series Index DataPoints
+data Series = Series [DataPoint]
+    deriving (Show)
 
 
 -- | Create new series
 -- >series [1, 2, 3] [41.3, 52.22, 3.0] == Series [1, 2, 3] [41.3, 52.22, 3.0]
-series :: Index -> DataPoints -> Series
-series idx vs = Series idx vs
+series :: [Timestamp] -> [Value] -> Series
+series idx vs = Series (zipWith DP idx vs)
 
 
 -- | Get series size.
@@ -41,7 +43,7 @@ series idx vs = Series idx vs
 -- >size (Series [1, 2, 3] [41.3, 52.22, 3.0]) == 3
 --
 size :: Series -> Int
-size (Series idx _) = length idx
+size (Series xs) = length xs
 
 
 -- | Return data point value at given index
@@ -51,5 +53,6 @@ size (Series idx _) = length idx
 -- >valueAt (Series [1, 2, 3] [41.3, 52.22, 3.0]) 5 == Nothing
 --
 valueAt :: Series -> Timestamp -> Maybe Value
-valueAt (Series idx xs) ts = fmap (\i -> xs !! i) ix
-    where ix = L.elemIndex ts idx
+valueAt (Series xs) ts = safeHead [y | DP x y <- xs, x == ts]
+    where safeHead [] = Nothing
+          safeHead (y:ys) = Just y

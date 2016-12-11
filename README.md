@@ -3,9 +3,8 @@
 
 # Welcome to Haskell Time Series library
 
-Basic functionality:
-  * Get series size
-  * Get value at given index
+This library operates on large (bigger then memory) time series.
+
 
 
 ## Installation
