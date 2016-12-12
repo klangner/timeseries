@@ -26,7 +26,7 @@ Please report bugs via the
 
 Master [git repository](http://github.com/klangner/time-series-lib):
 
-* `git clone git://github.com/klangner/time-series-lib.git`
+* `git clone https://github.com/klangner/time-series-lib.git`
 
 
 # Redistributing
