@@ -3,7 +3,8 @@
 
 # Welcome to Haskell Time Series library
 
-This library operates on large (bigger then memory) time series.
+Implemented functionality:
+  * Base operations on time series (get value, slice, max etc.)
 
 
 
