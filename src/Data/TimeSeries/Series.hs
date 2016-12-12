@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -funbox-strict-fields  #-}
 {-|
 Module:      Data.TimeSeries.Series
 Copyright:   (c) 2016 Krzysztof Langner
@@ -26,8 +27,7 @@ import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
 
 type Value = Double
-data DataPoint = DP {-# UNPACK #-} !UTCTime
-                    {-# UNPACK #-} !Value
+data DataPoint = DP !UTCTime !Value
                  deriving (Show, Eq)
 
 data Series = Series [DataPoint]
