@@ -26,7 +26,8 @@ import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
 
 type Value = Double
-data DataPoint = DP UTCTime Value
+data DataPoint = DP {-# UNPACK #-} !UTCTime
+                    {-# UNPACK #-} !Value
                  deriving (Show, Eq)
 
 data Series = Series [DataPoint]
