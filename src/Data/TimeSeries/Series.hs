@@ -10,36 +10,41 @@ Definition and basic operation on Series.
 module Data.TimeSeries.Series
     ( DataPoint
     , Series
-    , Timestamp
     , Value
+    , emptySeries
     , max
     , min
-    , series
     , size
     , slice
+    , tsSeries
     , valueAt
     ) where
 
 import Prelude hiding (max, min)
-import Data.Word (Word64)
+import Data.Time (UTCTime)
+import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
 
-type Timestamp = Word64
 type Value = Double
-data DataPoint = DP {-# UNPACK #-} !Timestamp
-                    {-# UNPACK #-} !Value
+data DataPoint = DP UTCTime Value
                  deriving (Show, Eq)
 
 data Series = Series [DataPoint]
     deriving (Show, Eq)
 
 
--- | Create a new series
+-- | Create empty series
+emptySeries :: Series
+emptySeries = Series []
+
+
+-- | Create time series from timestamps and values
 --
--- >series [1, 2, 3] [41.3, 52.22, 3.0] == Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]
+-- >seriesFromSeconds [1, 2, 3] [41.3, 52.22, 3.0] == Series [DP 1970-01-01 00:00:01 UTC 2.3,DP 1970-01-01 00:00:02 UTC 4.5]
 --
-series :: [Timestamp] -> [Value] -> Series
-series idx vs = Series (zipWith DP idx vs)
+tsSeries :: [Integer] -> [Value] -> Series
+tsSeries ts vs = Series (zipWith DP idx vs)
+    where idx = map (posixSecondsToUTCTime . fromIntegral) ts
 
 
 -- | Get series size.
@@ -57,10 +62,10 @@ size (Series xs) = length xs
 -- >valueAt (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 2 == Just 52.22
 -- >valueAt (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 5 == Nothing
 --
-valueAt :: Series -> Timestamp -> Maybe Value
+valueAt :: Series -> UTCTime -> Maybe Value
 valueAt (Series xs) ts = safeHead [y | DP x y <- xs, x == ts]
     where safeHead [] = Nothing
-          safeHead (y:ys) = Just y
+          safeHead (a:_) = Just a
 
 
 -- | Return series subset
@@ -69,7 +74,7 @@ valueAt (Series xs) ts = safeHead [y | DP x y <- xs, x == ts]
 -- >slice (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 2 3 == Series [DP 2 52.22, DP 3 3.0]
 -- >slice (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 5 23 == Series []
 --
-slice :: Series -> Timestamp -> Timestamp -> Series
+slice :: Series -> UTCTime -> UTCTime -> Series
 slice (Series xs) start end = Series [DP x y | DP x y <- xs, x >= start && x <= end]
 
 
@@ -90,6 +95,6 @@ max (Series xs) = foldl (\d (DP _ y) -> max' d y) 0.0 xs
 -- >min (Series []) == 0
 --
 min :: Series -> Value
-min (Series xs) = foldl (\d (DP _ y) -> min' d y) init xs
+min (Series xs) = foldl (\d (DP _ y) -> min' d y) maxValue xs
     where min' a b = if a < b then a else b
-          init = fromIntegral (maxBound :: Int)
+          maxValue = fromIntegral (maxBound :: Int)
