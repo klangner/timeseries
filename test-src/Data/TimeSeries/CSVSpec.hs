@@ -13,5 +13,5 @@ spec = do
   describe "Reader" $ do
 
     it "co2 test data" $ do
-        xs <- CSV.load parseISODateTime "testdata/co2.csv"
+        xs <- CSV.loadCSV parseISODateTime "testdata/co2.csv"
         TS.size xs `shouldBe` 192

@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Data.TimeSeries.CSVReader
-    ( load
+    ( loadCSV
     )where
 
 
@@ -20,8 +20,8 @@ import           Data.TimeSeries.Series ( Series
 
 -- | Load data from CSV file and create Time Series from it
 -- As a first argument provide function to convert date from ByteString to UTCTime
-load :: (T.Text -> UTCTime) -> FilePath -> IO Series
-load ft filePath = do
+loadCSV :: (T.Text -> UTCTime) -> FilePath -> IO Series
+loadCSV ft filePath = do
     csvData <- BS.readFile filePath
     case decode HasHeader csvData of
         Left err -> do
