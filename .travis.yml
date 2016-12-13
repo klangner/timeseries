@@ -2,18 +2,12 @@
 sudo: false
 
 # Do not choose a language; we provide our own build tools.
-language: generic
+language: haskell
 
 # Caching so the next build will be fast too.
 cache:
   directories:
   - $HOME/.stack
-
-# Ensure necessary system libraries are present
-addons:
-  apt:
-    packages:
-      - libgmp-dev
 
 before_install:
 # Download and unpack the stack executable
