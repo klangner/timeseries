@@ -1,10 +1,11 @@
 [![Build Status](https://travis-ci.org/klangner/time-series-lib.svg?branch=master)](https://travis-ci.org/klangner/time-series-lib)
-[![Hackage](https://img.shields.io/hackage/v/time-series-lib.svg)](https://hackage.haskell.org/package/time-series-lib)
+[![Hackage](https://img.shields.io/hackage/v/timeseries.svg)](https://hackage.haskell.org/package/timeseries)
 
 # Welcome to Haskell Time Series library
 
 Implemented functionality:
   * Base operations on time series (get value, slice, max etc.)
+  * Reading from CSV file
 
 
 

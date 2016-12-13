@@ -12,10 +12,10 @@ import           Data.Csv
 import qualified Data.Vector as V
 import           Data.Time (UTCTime)
 
-import           Data.TimeSeries ( Series
-                                 , emptySeries
-                                 , series
-                                 )
+import           Data.TimeSeries.Series ( Series
+                                        , emptySeries
+                                        , series
+                                        )
 
 
 -- | Load data from CSV file and create Time Series from it
