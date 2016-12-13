@@ -3,10 +3,14 @@ version:        0.1.0
 synopsis:       Library for Time Series processing
 License:        BSD3
 License-file:   LICENSE
+Copyright:      (c) 2016 Krzysztof Langner
 Extra-Source-Files:
-                CHANGES.md
+                README.md,
+                CHANGES.md,
+                LICENSE,
+                benchmark/*.hs
 description:
-    Library for processing large time series.
+    Library for processing time series data.
 homepage:       https://github.com/klangner/time-series-lib
 author:         Krzysztof Langner
 maintainer:     klangner@gmail.com
@@ -24,7 +28,12 @@ library
   ghc-options:      -Wall
   build-depends:
                     base >= 4.8 && < 5,
-                    time >= 1.5 && < 2
+                    bytestring < 0.11,
+                    bytestring-time < 1,
+                    cassava >= 0.4 && < 0.5,
+                    text < 2,
+                    time >= 1.5 && < 2,
+                    vector < 0.12
   exposed-modules:
                     Data.TimeSeries
   other-modules:
@@ -39,7 +48,12 @@ test-suite unit-tests
                     Cabal >=1.22.0 && <2,
                     hspec >=2 && <3,
                     QuickCheck >=2.6 && <3,
-                    time >= 1.5 && < 2
+                    bytestring < 0.11,
+                    bytestring-time < 1,
+                    cassava >= 0.4 && < 0.5,
+                    text < 2,
+                    time >= 1.5 && < 2,
+                    vector < 0.12
   other-modules:
                     Data.TimeSeries,
                     Data.TimeSeries.Series,

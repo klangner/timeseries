@@ -15,6 +15,7 @@ module Data.TimeSeries.Series
     , emptySeries
     , max
     , min
+    , series
     , size
     , slice
     , tsSeries
@@ -37,6 +38,11 @@ data Series = Series [DataPoint]
 -- | Create empty series
 emptySeries :: Series
 emptySeries = Series []
+
+
+-- | Create empty series
+series :: [(UTCTime, Double)] -> Series
+series xs = Series $ map (\(x, y) -> DP x y) xs
 
 
 -- | Create time series from timestamps and values
