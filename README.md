@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/klangner/time-series-lib.svg?branch=master)](https://travis-ci.org/klangner/time-series-lib)
+[![Build Status](https://travis-ci.org/klangner/timeseries.svg?branch=master)](https://travis-ci.org/klangner/timeseries)
 [![Hackage](https://img.shields.io/hackage/v/timeseries.svg)](https://hackage.haskell.org/package/timeseries)
 
 # Welcome to Haskell Time Series library
@@ -24,11 +24,11 @@ We are happy to receive bug reports, fixes, documentation enhancements,
 and other improvements.
 
 Please report bugs via the
-[github issue tracker](http://github.com/klangner/time-series-lib/issues).
+[github issue tracker](http://github.com/klangner/timeseries/issues).
 
-Master [git repository](http://github.com/klangner/time-series-lib):
+Master [git repository](http://github.com/klangner/timeseries):
 
-* `git clone https://github.com/klangner/time-series-lib.git`
+* `git clone https://github.com/klangner/timeseries.git`
 
 
 # Redistributing
