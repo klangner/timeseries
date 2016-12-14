@@ -1,7 +1,8 @@
-# Version 0.2 (2016-12-??)
+# Version 0.2 (2016-12-14)
 
   * Renamed function to load CSV file from **load** to **loadCSV**
   * Added toList function to the series
+  * Implemented CSVWriter
   
 
 # Version 0.1 (2016-12-13)

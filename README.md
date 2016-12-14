@@ -5,8 +5,7 @@
 
 Implemented functionality:
   * Base operations on time series (get value, slice, max etc.)
-  * Reading from CSV file
-
+  * Reading and writing from CSV file
 
 
 ## Installation
