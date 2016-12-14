@@ -1,7 +1,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Data.TimeSeries.CSVReader
+module Data.TimeSeries.IO.CSVReader
     ( loadCSV
     )where
 

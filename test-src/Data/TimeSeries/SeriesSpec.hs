@@ -1,7 +1,7 @@
 module Data.TimeSeries.SeriesSpec (spec) where
 
 import Test.Hspec
-import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
+import Data.Time.Clock.POSIX (posixSecondsToUTCTime, utcTimeToPOSIXSeconds)
 
 import qualified Data.TimeSeries as TS
 
@@ -15,6 +15,12 @@ spec = do
         let idx = [1, 2, 3]
         let values = [1.0, 2.0, 3.0]
         TS.size (TS.tsSeries idx values) `shouldBe` 3
+
+    it "toList" $ do
+        let idx = [1, 2, 3]
+        let values = [1.0, 2.0, 3.0]
+        let xs = TS.toList (TS.tsSeries idx values)
+        map (\(x, y) -> (utcTimeToPOSIXSeconds x, y)) xs `shouldBe` [(1, 1.0), (2, 2.0), (3, 3.0)]
 
     it "return data point value at given index" $ do
         let idx = [10, 20, 30]

@@ -1,5 +1,5 @@
 name:           timeseries
-version:        0.1.0
+version:        0.2.0
 synopsis:       Library for Time Series processing
 License:        BSD3
 License-file:   LICENSE
@@ -31,16 +31,17 @@ library
   build-depends:
                     base >= 4.7 && < 5,
                     bytestring < 0.11,
-                    bytestring-time < 1,
                     cassava >= 0.4 && < 0.5,
                     text < 2,
+                    text-time < 1,
                     time >= 1.5 && < 2,
                     vector < 0.12
   exposed-modules:
                     Data.TimeSeries
   other-modules:
                     Data.TimeSeries.Series,
-                    Data.TimeSeries.CSVReader
+                    Data.TimeSeries.IO.CSVReader
+                    Data.TimeSeries.IO.CSVWriter
 
 test-suite unit-tests
   type:             exitcode-stdio-1.0
@@ -52,17 +53,18 @@ test-suite unit-tests
                     hspec >=2 && <3,
                     QuickCheck >=2.6 && <3,
                     bytestring < 0.11,
-                    bytestring-time < 1,
                     cassava >= 0.4 && < 0.5,
                     text < 2,
+                    text-time < 1,
                     time >= 1.5 && < 2,
                     vector < 0.12
   other-modules:
                     Data.TimeSeries,
                     Data.TimeSeries.Series,
                     Data.TimeSeries.SeriesSpec
-                    Data.TimeSeries.CSVReader
-                    Data.TimeSeries.CSVSpec
+                    Data.TimeSeries.IO.CSVReader
+                    Data.TimeSeries.IO.CSVWriter
+                    Data.TimeSeries.IO.CSVSpec
   hs-source-dirs:
                     src,
                     test-src

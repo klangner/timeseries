@@ -1,10 +1,10 @@
-module Data.TimeSeries.CSVSpec (spec) where
+module Data.TimeSeries.IO.CSVSpec (spec) where
 
 import Test.Hspec
-import Data.ByteString.Time (parseISODateTime)
+import Data.Text.Time (parseISODateTime)
 
 import qualified Data.TimeSeries as TS
-import qualified Data.TimeSeries.CSVReader as CSV
+import qualified Data.TimeSeries.IO.CSVReader as CSV
 
 
 spec :: Spec

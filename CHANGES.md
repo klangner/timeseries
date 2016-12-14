@@ -1,6 +1,8 @@
 # Version 0.2 (2016-12-??)
 
-  * Renomve function to load CSV file from **load** to **loadCSV**
+  * Renamed function to load CSV file from **load** to **loadCSV**
+  * Added toList function to the series
+  
 
 # Version 0.1 (2016-12-13)
 

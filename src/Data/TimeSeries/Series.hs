@@ -18,6 +18,7 @@ module Data.TimeSeries.Series
     , series
     , size
     , slice
+    , toList
     , tsSeries
     , valueAt
     ) where
@@ -52,6 +53,11 @@ series xs = Series $ map (\(x, y) -> DP x y) xs
 tsSeries :: [Integer] -> [Value] -> Series
 tsSeries ts vs = Series (zipWith DP idx vs)
     where idx = map (posixSecondsToUTCTime . fromIntegral) ts
+
+
+-- | Convert Time Series to list
+toList :: Series -> [(UTCTime, Double)]
+toList (Series xs) = map (\(DP x y) -> (x, y)) xs
 
 
 -- | Get series size.
