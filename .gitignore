@@ -1,4 +1,4 @@
 .idea
-time-series-lib.iml
+timeseries.iml
 .stack-work
 benchmark/output
