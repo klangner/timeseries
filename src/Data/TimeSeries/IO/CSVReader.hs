@@ -20,10 +20,11 @@ import           Data.TimeSeries.Series ( Series
 
 -- | Load data from CSV file and create Time Series from it
 -- As a first argument provide function to convert date from ByteString to UTCTime
-loadCSV :: (T.Text -> UTCTime) -> FilePath -> IO Series
-loadCSV ft filePath = do
+loadCSV :: Bool -> (T.Text -> UTCTime) -> FilePath -> IO Series
+loadCSV hasHeader ft filePath = do
     csvData <- BS.readFile filePath
-    case decode HasHeader csvData of
+    let h = if hasHeader then HasHeader else NoHeader
+    case decode h csvData of
         Left err -> do
             _ <- putStrLn err
             return emptySeries
