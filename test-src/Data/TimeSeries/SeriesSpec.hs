@@ -48,8 +48,8 @@ spec = do
 
     it "map over series" $ do
         let xs = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.65, 11.0]
-        let ys = TS.apply (+ 2) xs
-        (getValues ys)`shouldBe` [12.0, 3.2, 34.4, 2.65, 13.0]
+        let ys = fmap (+ 2) xs
+        (TS.values ys)`shouldBe` [12.0, 3.2, 34.4, 2.65, 13.0]
 
     it "maximum value" $ do
         let xs = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.65, 11.0]
@@ -59,7 +59,3 @@ spec = do
         let xs = TS.tsSeries [1..5] [10.0, 1.2, 32.4, 0.65, 11.0]
         TS.min xs `shouldBe` 0.65
 
-
--- Helper function for getting series values
-getValues :: TS.Series -> [Double]
-getValues ts = map (\(_, y) -> y) (TS.toList ts)

@@ -14,7 +14,7 @@ import Data.TimeSeries.Series ( Series
 
 -- | Load data from CSV file and create Time Series from it
 -- As a first argument provide function to convert date from ByteString to UTCTime
-saveCSV :: Series -> FilePath -> IO ()
+saveCSV :: Series Double -> FilePath -> IO ()
 saveCSV ts filePath = do
     let rs = map (\(x, y) -> (formatISODateTime x, y)) (toList ts)
     let rs' = encode rs

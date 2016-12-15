@@ -22,7 +22,7 @@ data HasHeader = HasHeader | NoHeader
 
 -- | Load data from CSV file and create Time Series from it
 -- As a first argument provide function to convert date from ByteString to UTCTime
-loadCSV :: HasHeader -> (T.Text -> UTCTime) -> FilePath -> IO Series
+loadCSV :: HasHeader -> (T.Text -> UTCTime) -> FilePath -> IO (Series Double)
 loadCSV hasHeader ft filePath = do
     csvData <- BS.readFile filePath
     case CSV.decode (toCSVHeader hasHeader) csvData of

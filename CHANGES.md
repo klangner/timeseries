@@ -3,7 +3,8 @@
   * Renamed function to load CSV file from **load** to **loadCSV**
   * Added toList function to the series
   * Implemented CSV Writer
-  * Implemented apply function.
+  * Time Series is instance of Functor
+  * Time Series is instance of Foldable
   
 
 # Version 0.1 (2016-12-13)
