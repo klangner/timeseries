@@ -37,45 +37,51 @@ firefox output/bench.html
 Latest benchmark:
 
 ```
-benchmarking Big series/size
-time                 8.504 ms   (8.464 ms .. 8.533 ms)
+benchmarking Basic operations/size
+time                 8.760 ms   (8.708 ms .. 8.797 ms)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 8.593 ms   (8.564 ms .. 8.630 ms)
-std dev              90.73 μs   (69.51 μs .. 134.5 μs)
+mean                 8.924 ms   (8.879 ms .. 8.979 ms)
+std dev              141.1 μs   (109.6 μs .. 202.0 μs)
 
-benchmarking Big series/valueAt
-time                 14.10 ms   (14.04 ms .. 14.16 ms)
+benchmarking Basic operations/valueAt
+time                 13.35 ms   (13.29 ms .. 13.40 ms)
                      1.000 R²   (1.000 R² .. 1.000 R²)
-mean                 14.08 ms   (14.04 ms .. 14.12 ms)
-std dev              98.14 μs   (70.20 μs .. 151.0 μs)
+mean                 13.45 ms   (13.40 ms .. 13.53 ms)
+std dev              154.5 μs   (95.31 μs .. 220.3 μs)
 
-benchmarking Big series/slice
-time                 28.47 ms   (28.31 ms .. 28.73 ms)
-                     1.000 R²   (0.999 R² .. 1.000 R²)
-mean                 28.33 ms   (28.25 ms .. 28.43 ms)
-std dev              208.0 μs   (131.7 μs .. 299.1 μs)
+benchmarking Basic operations/slice
+time                 25.47 ms   (25.26 ms .. 25.71 ms)
+                     1.000 R²   (1.000 R² .. 1.000 R²)
+mean                 25.41 ms   (25.35 ms .. 25.51 ms)
+std dev              171.2 μs   (110.5 μs .. 241.7 μs)
 
-  12,659,195,184 bytes allocated in the heap
-     857,227,504 bytes copied during GC
-     132,423,424 bytes maximum residency (13 sample(s))
-       1,587,672 bytes maximum slop
+benchmarking Basic operations/load CSV
+time                 247.1 ms   (236.4 ms .. 254.7 ms)
+                     0.999 R²   (0.998 R² .. 1.000 R²)
+mean                 254.6 ms   (251.1 ms .. 261.1 ms)
+std dev              6.262 ms   (180.5 μs .. 7.533 ms)
+variance introduced by outliers: 16% (moderately inflated)
+
+  34,745,798,992 bytes allocated in the heap
+   2,354,784,752 bytes copied during GC
+     132,423,528 bytes maximum residency (60 sample(s))
+       3,170,616 bytes maximum slop
              292 MB total memory in use (0 MB lost due to fragmentation)
 
                                      Tot time (elapsed)  Avg pause  Max pause
-  Gen  0     24245 colls,     0 par    0.170s   0.168s     0.0000s    0.0012s
-  Gen  1        13 colls,     0 par    0.452s   0.452s     0.0348s    0.0982s
+  Gen  0     66723 colls,     0 par    0.709s   0.704s     0.0000s    0.0013s
+  Gen  1        60 colls,     0 par    0.794s   0.797s     0.0133s    0.1002s
 
   INIT    time    0.000s  (  0.000s elapsed)
-  MUT     time   17.756s  ( 17.762s elapsed)
-  GC      time    0.622s  (  0.620s elapsed)
-  EXIT    time    0.014s  (  0.014s elapsed)
-  Total   time   18.396s  ( 18.397s elapsed)
+  MUT     time   22.487s  ( 22.515s elapsed)
+  GC      time    1.504s  (  1.501s elapsed)
+  EXIT    time    0.002s  (  0.002s elapsed)
+  Total   time   23.998s  ( 24.018s elapsed)
 
-  %GC     time       3.4%  (3.4% elapsed)
+  %GC     time       6.3%  (6.2% elapsed)
 
-  Alloc rate    712,954,494 bytes per MUT second
+  Alloc rate    1,545,151,064 bytes per MUT second
 
-  Productivity  96.6% of total user, 96.6% of total elapsed
-
+  Productivity  93.7% of total user, 93.7% of total elapsed
 ```
 

@@ -22,11 +22,10 @@ data HasHeader = HasHeader | NoHeader
 
 -- | Load data from CSV file and create Time Series from it
 -- As a first argument provide function to convert date from ByteString to UTCTime
-loadCSV :: Bool -> (T.Text -> UTCTime) -> FilePath -> IO Series
+loadCSV :: HasHeader -> (T.Text -> UTCTime) -> FilePath -> IO Series
 loadCSV hasHeader ft filePath = do
     csvData <- BS.readFile filePath
-    let h = if hasHeader then CSV.HasHeader else CSV.NoHeader
-    case CSV.decode h csvData of
+    case CSV.decode (toCSVHeader hasHeader) csvData of
         Left err -> do
             _ <- putStrLn err
             return emptySeries
@@ -35,6 +34,10 @@ loadCSV hasHeader ft filePath = do
             let vs' = V.map (parseLine ft) vs
             return $ series (V.toList vs')
 
+
+toCSVHeader :: HasHeader -> CSV.HasHeader
+toCSVHeader HasHeader = CSV.HasHeader
+toCSVHeader _ = CSV.NoHeader
 
 parseLine :: (T.Text -> UTCTime) -> (T.Text, Double) -> (UTCTime, Double)
 parseLine ft (date, value) = (ft date, value)
