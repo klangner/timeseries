@@ -2,13 +2,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Data.TimeSeries.IO.CSVReader
-    ( loadCSV
+    ( HasHeader(..)
+    , loadCSV
     )where
 
 
 import qualified Data.ByteString.Lazy as BS
 import qualified Data.Text as T
-import           Data.Csv
+import qualified Data.Csv as CSV
 import qualified Data.Vector as V
 import           Data.Time (UTCTime)
 
@@ -17,14 +18,15 @@ import           Data.TimeSeries.Series ( Series
                                         , series
                                         )
 
+data HasHeader = HasHeader | NoHeader
 
 -- | Load data from CSV file and create Time Series from it
 -- As a first argument provide function to convert date from ByteString to UTCTime
 loadCSV :: Bool -> (T.Text -> UTCTime) -> FilePath -> IO Series
 loadCSV hasHeader ft filePath = do
     csvData <- BS.readFile filePath
-    let h = if hasHeader then HasHeader else NoHeader
-    case decode h csvData of
+    let h = if hasHeader then CSV.HasHeader else CSV.NoHeader
+    case CSV.decode h csvData of
         Left err -> do
             _ <- putStrLn err
             return emptySeries
