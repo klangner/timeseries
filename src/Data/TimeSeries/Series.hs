@@ -46,6 +46,7 @@ instance Functor Series where
 
 instance Foldable Series where
     foldMap f (Series xs) = foldMap (foldMap f) xs
+    length = size
 
 
 -- | Create empty series
@@ -84,11 +85,6 @@ values ts = map (\(_, y) -> y) (toList ts)
 --
 size :: Series a -> Int
 size (Series xs) = length xs
-
-
--- | Fold the values
-vfold :: (b -> a -> b) -> b -> Series a -> b
-vfold f r (Series xs) = foldl (\d (DP _ y) -> f d y) r xs
 
 
 -- | Return data point value at given index

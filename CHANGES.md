@@ -5,6 +5,7 @@
   * Implemented CSV Writer
   * Time Series is instance of Functor
   * Time Series is instance of Foldable
+  * Implemented mean
   
 
 # Version 0.1 (2016-12-13)
