@@ -12,6 +12,7 @@ module Data.TimeSeries.Series
     ( DataPoint
     , Series
     , Value
+    , apply
     , emptySeries
     , max
     , min
@@ -29,9 +30,12 @@ import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
 
 type Value = Double
+-- | Data points is single index value od time series
 data DataPoint = DP !UTCTime !Value
                  deriving (Show, Eq)
 
+-- | Data structure for holding Series.
+-- Implementation should be hidden so it can be changed in the future
 data Series = Series [DataPoint]
     deriving (Show, Eq)
 
@@ -67,6 +71,11 @@ toList (Series xs) = map (\(DP x y) -> (x, y)) xs
 --
 size :: Series -> Int
 size (Series xs) = length xs
+
+
+-- | Apply function to every data point value
+apply :: (Double -> Double) -> Series -> Series
+apply f (Series xs) = Series $ map (\(DP x y) -> DP x (f y)) xs
 
 
 -- | Return data point value at given index

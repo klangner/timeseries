@@ -30,8 +30,8 @@ main = defaultMain
         [ bench "size"  $ nf TS.size bigSeries
         , bench "valueAt"  $ nf (\xs -> TS.valueAt xs lastIndex) bigSeries
         , bench "slice"  $ nf (\xs -> TS.valueAt (TS.slice xs (index 2) lastIndex) (index 1)) bigSeries
-        , bench "load CSV" $ nfIO (TS.loadCSV TS.NoHeader parseISODateTime "../testdata/test-100K.csv")
+        , bench "apply"  $ nf (TS.apply (+ 2)) bigSeries
         ]
---     , bgroup "IO"
---         [ bench "load CSV" $ nfIO (TS.loadCSV TS.NoHeader parseISODateTime "../testdata/test-100K.csv") ]
+    , bgroup "IO"
+        [ bench "load CSV" $ nfIO (TS.loadCSV TS.NoHeader parseISODateTime "../testdata/test-100K.csv") ]
     ]
