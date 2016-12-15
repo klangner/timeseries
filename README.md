@@ -32,4 +32,4 @@ Master [git repository](http://github.com/klangner/timeseries):
 
 # Redistributing
 
-time-series-lib source code is distributed under the BSD3 License.
+timeseries source code is distributed under the BSD3 License.
