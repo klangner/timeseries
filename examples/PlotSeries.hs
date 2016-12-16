@@ -1,29 +1,18 @@
-
-import Graphics.Rendering.Chart
+import Graphics.Rendering.Chart.Easy
 import Graphics.Rendering.Chart.Backend.Diagrams
-import Data.Default.Class
-import Control.Lens
+import Data.Time
 import Data.Text.Time (parseISODateTime)
+
 import qualified Data.TimeSeries as TS
 
 
-chart = toRenderable layout
-  where
-    values = [ ("Mexico City",19.2,e), ("Mumbai",12.9,e)
-             , ("Sydney",4.3,e), ("London",8.3,e), ("New York",8.2,e1) ]
-    e = 0
-    e1 = 25
-    pitem (s,v,o) = pitem_value .~ v
-                  $ pitem_label .~ s
-                  $ pitem_offset .~ o
-                  $ def
-
-    layout = pie_title .~ "Relative Population"
-           $ pie_plot . pie_data .~ map pitem values
-           $ def
+signal :: Num a => TS.Series a -> [(LocalTime, a)]
+signal ts = map (\(x, y) -> (utcToLocalTime utc x, y)) (TS.toList ts)
 
 
-main :: IO ()
 main = do
-    ts <- TS.loadCSV TS.NoHeader parseISODateTime "../testdata/co2.csv"
-    renderableToFile def "../temp/co2.svg" chart
+    ts <- TS.loadCSV TS.HasHeader parseISODateTime "../testdata/co2.csv"
+    toFile def "../temp/co2.svg" $ do
+        layout_title .= "CO2 level"
+        setColors [opaque blue, opaque red]
+        plot (line "CO2" [signal ts])
