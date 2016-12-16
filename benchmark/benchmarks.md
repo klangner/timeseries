@@ -10,20 +10,19 @@ cabal install -j --disable-tests criterion
 Create folder for the temporary files
 
 ```sh
-cd benchamrk
-mkdir output
+mkdir temp
 ```
 
 Build the benchmarking application.
 
 ```sh
-ghc -O2 -rtsopts --make -i../src -outputdir output -o output/bench Benchmarks.hs
+ghc -O2 -rtsopts --make -isrc -outputdir temp -o temp/bench benchmark/Benchmarks.hs
 ```
 
 Run performance tests
 
 ```sh
-output/bench --output output/bench.html +RTS -s
+temp/bench --output temp/bench.html +RTS -s
 ```
 
 Browse the results
