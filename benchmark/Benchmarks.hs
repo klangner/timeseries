@@ -34,5 +34,5 @@ main = defaultMain
         , bench "fmap"  $ nf (fmap (+ 2)) bigSeries
         ]
     , bgroup "IO"
-        [ bench "load CSV" $ nfIO (TS.loadCSV TS.NoHeader parseISODateTime "../testdata/test-100K.csv") ]
+        [ bench "load CSV" $ nfIO (TS.loadCSV TS.NoHeader parseISODateTime "testdata/test-100K.csv") ]
     ]
