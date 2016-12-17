@@ -32,7 +32,7 @@ loadCSV hasHeader ft filePath = do
 
         Right vs -> do
             let vs' = V.map (parseLine ft) vs
-            return $ series (V.toList vs')
+            return $ series (vs')
 
 
 toCSVHeader :: HasHeader -> CSV.HasHeader
