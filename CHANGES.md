@@ -2,6 +2,7 @@
 
   * slice has different order of its parameters
   * valueAt has different order of its parameters
+  * Added rolling window
 
 
 # Version 0.2 (2016-12-15)
