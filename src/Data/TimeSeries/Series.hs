@@ -11,7 +11,10 @@ Definition and basic operation on Series.
 module Data.TimeSeries.Series
     ( DataPoint
     , Series
+    , dpIndex
+    , dpValue
     , emptySeries
+    , rolling
     , series
     , size
     , slice
@@ -22,12 +25,13 @@ module Data.TimeSeries.Series
     ) where
 
 import Prelude hiding (max, min)
-import Data.Time (UTCTime, DiffTime)
+import Data.Time (UTCTime, NominalDiffTime, diffUTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
 
 -- | Data points is single index value od time series
-data DataPoint a = DP !UTCTime a
+data DataPoint a = DP { dpIndex :: !UTCTime
+                      , dpValue :: a }
                  deriving (Show, Eq)
 
 instance Functor DataPoint where
@@ -118,8 +122,22 @@ slice start end (Series xs) = Series [DP x y | DP x y <- xs, x >= start && x <= 
 
 -- | Apply function to rolling window to create new Series
 -- Rolling window is also called Sliding Window.
--- rollingWindow :: DiffTime       -- ^ Window size
---               -> ([a] -> b)     -- ^ Function applied to each window
---               -> Series a       -- ^ Input Series
---               -> Series b       -- ^ Converted Series
--- rollingWindow n f ts = ts
+rolling ::  NominalDiffTime -- ^ Window size
+        -> ([a] -> b)       -- ^ Function applied to each window
+        -> Series a         -- ^ Input Series
+        -> Series b         -- ^ Converted Series
+rolling dt f (Series xs) = Series $ map (\(i, vs) -> DP i (f vs)) (windows dt xs)
+
+-- Create rolling windows based on given delta time.
+windows ::  NominalDiffTime -> [DataPoint a] -> [(UTCTime, [a])]
+windows _ [] = []
+windows dt xs = g ys : if length xs > length ys then windows dt (tail xs) else []
+    where
+        -- Take data points from window based on time difference [DataPoint]
+        ys = takeWhile (isInTimeRange dt (head xs)) xs
+        -- Convert [DataPoint a] -> (UTCTime, [a])
+        g vs = (dpIndex (last vs), values (Series vs))
+
+-- Check if two DataPoints are closer then given time difference
+isInTimeRange :: NominalDiffTime -> DataPoint a -> DataPoint a -> Bool
+isInTimeRange dt (DP i _) (DP j _) = diffUTCTime j i < dt
