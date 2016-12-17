@@ -1,6 +1,7 @@
 # Examples
 
-  * PlotSeries - Plot sample Time Series. 
+  * PlotSeries - Plot sample Time Series.
+  * Smooth - Plot original and smoothed series
 
 
 ## Install chart package
