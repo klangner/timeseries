@@ -3,7 +3,7 @@ module Data.TimeSeries.SeriesSpec (spec) where
 import Test.Hspec
 import Data.Time (UTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime, utcTimeToPOSIXSeconds)
-import Statistics.Sample (mean)
+import qualified Statistics.Sample as S
 
 import qualified Data.TimeSeries as TS
 
@@ -78,7 +78,7 @@ spec = do
 
 --     it "smoothing" $ do
 --         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
---         TS.rolling 3 mean xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
+--         TS.rolling 3 S.mean xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
 
 
 
