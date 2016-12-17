@@ -4,6 +4,7 @@ import Test.Hspec
 import Data.Time (UTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime, utcTimeToPOSIXSeconds)
 import qualified Statistics.Sample as S
+import qualified Data.Vector as V
 
 import qualified Data.TimeSeries as TS
 
@@ -76,9 +77,9 @@ spec = do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
         TS.rolling 2 sum xs `shouldBe` TS.tsSeries [2..] [3.0, 5.0, 7.0, 9.0]
 
---     it "smoothing" $ do
---         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
---         TS.rolling 3 S.mean xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
+    it "smoothing" $ do
+        let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
+        TS.rolling 3 (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
 
 
 
