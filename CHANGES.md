@@ -1,3 +1,9 @@
+# Version 0.3
+
+  * slice has different order of its parameters
+  * valueAt has different order of its parameters
+
+
 # Version 0.2 (2016-12-15)
 
   * Renamed function to load CSV file from **load** to **loadCSV**

@@ -22,7 +22,7 @@ module Data.TimeSeries.Series
     ) where
 
 import Prelude hiding (max, min)
-import Data.Time (UTCTime)
+import Data.Time (UTCTime, DiffTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
 
@@ -63,7 +63,9 @@ series xs = Series $ map (\(x, y) -> DP x y) xs
 --
 -- >seriesFromSeconds [1, 2, 3] [41.3, 52.22, 3.0] == Series [DP 1970-01-01 00:00:01 UTC 2.3,DP 1970-01-01 00:00:02 UTC 4.5]
 --
-tsSeries :: [Integer] -> [a] -> Series a
+tsSeries :: [Integer]       -- ^ List of index value given as number of seconds
+         -> [a]             -- ^ List of value
+         -> Series a        -- ^ Created Series
 tsSeries ts vs = Series (zipWith DP idx vs)
     where idx = map (posixSecondsToUTCTime . fromIntegral) ts
 
@@ -93,8 +95,10 @@ size (Series xs) = length xs
 -- >valueAt (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 2 == Just 52.22
 -- >valueAt (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 5 == Nothing
 --
-valueAt :: Series a -> UTCTime -> Maybe a
-valueAt (Series xs) ts = safeHead [y | DP x y <- xs, x == ts]
+valueAt :: UTCTime      -- ^ Index position
+        -> Series a     -- ^ Input Series
+        -> Maybe a      -- ^ Value at given index
+valueAt ts (Series xs) = safeHead [y | DP x y <- xs, x == ts]
     where safeHead [] = Nothing
           safeHead (i:_) = Just i
 
@@ -105,7 +109,17 @@ valueAt (Series xs) ts = safeHead [y | DP x y <- xs, x == ts]
 -- >slice (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 2 3 == Series [DP 2 52.22, DP 3 3.0]
 -- >slice (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 5 23 == Series []
 --
-slice :: Series a -> UTCTime -> UTCTime -> Series a
-slice (Series xs) start end = Series [DP x y | DP x y <- xs, x >= start && x <= end]
+slice :: UTCTime        -- ^ Start time (inclusive)
+      -> UTCTime        -- ^ End time (inclusive)
+      -> Series a       -- ^ Input series
+      -> Series a       -- ^ Sliced Series
+slice start end (Series xs) = Series [DP x y | DP x y <- xs, x >= start && x <= end]
 
 
+-- | Apply function to rolling window to create new Series
+-- Rolling window is also called Sliding Window.
+-- rollingWindow :: DiffTime       -- ^ Window size
+--               -> ([a] -> b)     -- ^ Function applied to each window
+--               -> Series a       -- ^ Input Series
+--               -> Series b       -- ^ Converted Series
+-- rollingWindow n f ts = ts
