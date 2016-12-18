@@ -2,6 +2,7 @@
 module Data.TimeSeries
     ( module Data.TimeSeries.Series
     , module Data.TimeSeries.Stats
+    , module Data.TimeSeries.Time
     , module Data.TimeSeries.IO.CSVReader
     , module Data.TimeSeries.IO.CSVWriter
     ) where
@@ -9,5 +10,6 @@ module Data.TimeSeries
 
 import Data.TimeSeries.Series
 import Data.TimeSeries.Stats
+import Data.TimeSeries.Time
 import Data.TimeSeries.IO.CSVReader
 import Data.TimeSeries.IO.CSVWriter

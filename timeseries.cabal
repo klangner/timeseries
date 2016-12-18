@@ -42,6 +42,7 @@ library
   other-modules:
                     Data.TimeSeries.Series,
                     Data.TimeSeries.Stats,
+                    Data.TimeSeries.Time,
                     Data.TimeSeries.IO.CSVReader
                     Data.TimeSeries.IO.CSVWriter
 
@@ -66,7 +67,9 @@ test-suite unit-tests
                     Data.TimeSeries,
                     Data.TimeSeries.Series,
                     Data.TimeSeries.Stats,
+                    Data.TimeSeries.Time,
                     Data.TimeSeries.SeriesSpec
+                    Data.TimeSeries.TimeSpec,
                     Data.TimeSeries.IO.CSVReader
                     Data.TimeSeries.IO.CSVWriter
                     Data.TimeSeries.IO.CSVSpec
