@@ -15,6 +15,7 @@ module Data.TimeSeries.Series
     , dpValue
     , emptySeries
     , rolling
+    , resample
     , series
     , size
     , slice
@@ -27,6 +28,8 @@ module Data.TimeSeries.Series
 import Prelude hiding (max, min)
 import Data.Time (UTCTime, NominalDiffTime, diffUTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
+
+import Data.TimeSeries.Time (TimeResolution, nextTime)
 
 
 -- | Data points is single index value od time series
@@ -141,3 +144,23 @@ windows dt xs = g ys : if length xs > length ys then windows dt (tail xs) else [
 -- Check if two DataPoints are closer then given time difference
 isInTimeRange :: NominalDiffTime -> DataPoint a -> DataPoint a -> Bool
 isInTimeRange dt (DP i _) (DP j _) = diffUTCTime j i < dt
+
+
+-- | Resample Time series
+resample :: UTCTime             -- ^ Starting time
+         -> TimeResolution      -- ^ Resampling resolution
+         -> ([a] -> b)          -- ^ Function for aggregating data points
+         -> Series a            -- ^ Input series
+         -> Series b            -- ^ Resampled series
+resample utc res f (Series xs) = Series (map (\(i, vs) -> DP i (f (g vs))) (resample' utc res xs))
+    where
+        g :: [DataPoint a] -> [a]
+        g  = map dpValue
+
+-- | Resample based on list
+resample' :: UTCTime -> TimeResolution -> [DataPoint a] -> [(UTCTime, [DataPoint a])]
+resample' _ _ [] = []
+resample' utc res xs = (utc, ys) : resample' utc2 res zs
+    where
+        utc2 = nextTime res utc
+        (ys, zs) = break (\(DP x _) -> x >= utc2) xs

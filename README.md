@@ -11,6 +11,7 @@ Implemented functionality:
     * slice
   * Mapping and folding Series
   * Rolling window operation
+  * Resampling based on time
   * Calculate statistics
     * min, max
     * median, variance, standard deviation

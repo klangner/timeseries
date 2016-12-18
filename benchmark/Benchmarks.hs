@@ -27,6 +27,9 @@ bigSeries = TS.tsSeries [1..seriesSize] [1..]
 smallSeries :: TS.Series Double
 smallSeries = TS.tsSeries [1..10^4] [1..]
 
+startTime :: UTCTime
+startTime = posixSecondsToUTCTime $ fromIntegral 1
+
 
 main :: IO ()
 main = defaultMain
@@ -38,7 +41,9 @@ main = defaultMain
         , bench "fmap"  $ nf (fmap (+ 2)) bigSeries
         ]
     , bgroup "Group operation"
-        [ bench "rolling" $ nf (TS.rolling 20 sum ) smallSeries ]
+        [ bench "rolling" $ nf (TS.rolling 20 sum) smallSeries
+        , bench "resampling" $ nf (TS.resample startTime (TS.seconds 20) sum) smallSeries
+        ]
     , bgroup "IO"
         [ bench "load CSV" $ nfIO (TS.loadCSV TS.NoHeader parseISODateTime "testdata/test-100K.csv") ]
     ]

@@ -7,6 +7,7 @@ import qualified Statistics.Sample as S
 import qualified Data.Vector as V
 
 import qualified Data.TimeSeries as TS
+import Data.TimeSeries.Time (seconds)
 
 
 sampleSeries :: TS.Series Double
@@ -80,6 +81,12 @@ spec = do
     it "smoothing" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
         TS.rolling 3 (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
+
+    it "resampling" $ do
+        let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        let startTime = posixSecondsToUTCTime $ fromIntegral 1
+        TS.resample startTime (seconds 2) sum xs `shouldBe` TS.tsSeries [1, 3, 5] [3.0, 7.0, 11.0]
+
 
 
 
