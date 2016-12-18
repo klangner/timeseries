@@ -79,7 +79,7 @@ toList :: Series a -> [(UTCTime, a)]
 toList (Series xs) = map (\(DP x y) -> (x, y)) xs
 
 
--- | Get only series values
+-- | Get series values
 values :: Series a -> [a]
 values ts = map (\(_, y) -> y) (toList ts)
 

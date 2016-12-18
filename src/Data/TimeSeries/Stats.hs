@@ -9,7 +9,7 @@ import Prelude hiding (max, min)
 import Data.TimeSeries.Series (Series)
 
 
--- | Return maximum value in the series
+-- | Return Time Series mean
 mean :: Fractional a => Series a -> a
 mean xs = sum xs / fromIntegral (length xs)
 
