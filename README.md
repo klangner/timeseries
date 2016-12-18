@@ -4,8 +4,16 @@
 # Welcome to Haskell Time Series library
 
 Implemented functionality:
-  * Base operations on time series (get value, slice, max etc.)
+
   * Reading and writing from CSV file
+  * Base operations on time series:
+    * get value
+    * slice
+  * Mapping and folding Series
+  * Rolling window operation
+  * Calculate statistics
+    * min, max
+    * median, variance, standard deviation
 
 
 ## Installation

@@ -15,3 +15,13 @@ spec = do
         let idx = [1..]
         let values = [1.0, 2.0, 3.0] :: [Double]
         TS.mean (TS.tsSeries idx values) `shouldBe` 2.0
+
+    it "variance" $ do
+        let idx = [1..]
+        let values = [1.0..6.0] :: [Double]
+        TS.variance (TS.tsSeries idx values) `shouldBe` 35/12
+
+    it "standard deviation" $ do
+        let idx = [1..]
+        let values = [1.0..6.0] :: [Double]
+        TS.std (TS.tsSeries idx values) `shouldBe` sqrt (35/12)

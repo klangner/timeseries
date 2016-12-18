@@ -3,6 +3,7 @@
   * slice has different order of its parameters
   * valueAt has different order of its parameters
   * Added rolling window
+  * Added variance and standard deviation
 
 
 # Version 0.2 (2016-12-15)
