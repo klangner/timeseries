@@ -15,7 +15,7 @@ cabal install chart-diagrams
 
 ```bash
 mkdir temp
-ghc -O2 --make -isrc -outputdir temp -o temp/plot-series examples/PlotSeries.hs 
+ghc -O2 --make -isrc -outputdir out -o out/plot-series examples/PlotSeries.hs
 ```
 
 ```bash

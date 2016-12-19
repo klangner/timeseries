@@ -16,7 +16,7 @@ mkdir temp
 Build the benchmarking application.
 
 ```sh
-ghc -O2 -rtsopts --make -isrc -outputdir temp -o temp/bench benchmark/Benchmarks.hs
+ghc -O2 -rtsopts --make -isrc -outputdir out -o out/bench benchmark/Benchmarks.hs
 ```
 
 Run performance tests

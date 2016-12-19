@@ -1,5 +1,4 @@
 .idea
 timeseries.iml
 .stack-work
-benchmark/output
-temp
+out
