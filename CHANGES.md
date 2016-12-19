@@ -1,4 +1,9 @@
-# Version 0.3
+# Version 0.4
+
+  * reimplemented resampling function
+
+
+# Version 0.3 (2016-12-18)
 
   * slice has different order of its parameters
   * valueAt has different order of its parameters

@@ -26,7 +26,9 @@ module Data.TimeSeries.Series
     ) where
 
 import Prelude hiding (max, min)
-import Data.Time (UTCTime, NominalDiffTime, diffUTCTime)
+import Data.Time ( UTCTime
+                 , NominalDiffTime
+                 , diffUTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
 import Data.TimeSeries.Time (TimeResolution, nextTime)
@@ -147,20 +149,23 @@ isInTimeRange dt (DP i _) (DP j _) = diffUTCTime j i < dt
 
 
 -- | Resample Time series
-resample :: UTCTime             -- ^ Starting time
+resample :: Fractional a
+         => UTCTime             -- ^ Starting time
          -> TimeResolution      -- ^ Resampling resolution
-         -> ([a] -> b)          -- ^ Function for aggregating data points
          -> Series a            -- ^ Input series
-         -> Series b            -- ^ Resampled series
-resample utc res f (Series xs) = Series (map (\(i, vs) -> DP i (f (g vs))) (resample' utc res xs))
-    where
-        g :: [DataPoint a] -> [a]
-        g  = map dpValue
+         -> Series a            -- ^ Resampled series
+resample _ _ (Series []) = emptySeries
+resample utc res (Series xs) = Series (resample' utc res (head xs) xs)
 
 -- | Resample based on list
-resample' :: UTCTime -> TimeResolution -> [DataPoint a] -> [(UTCTime, [DataPoint a])]
-resample' _ _ [] = []
-resample' utc res xs = (utc, ys) : resample' utc2 res zs
+resample' :: Fractional a => UTCTime -> TimeResolution -> DataPoint a -> [DataPoint a] -> [DataPoint a]
+resample' _ _ _ [] = []
+resample' utc res y (x:xs)
+    | utc < dpIndex x   = DP utc mu : resample' utc2 res y (x:xs)
+    | utc == dpIndex x  = DP utc (dpValue x) : resample' utc2 res x xs
+    | otherwise         = resample' utc res x xs
     where
         utc2 = nextTime res utc
-        (ys, zs) = break (\(DP x _) -> x >= utc2) xs
+        mu = (ty/(tx+ty)) * (dpValue x) + ((tx/(tx+ty)) * (dpValue y))
+        tx = abs $ realToFrac (diffUTCTime utc (dpIndex x))
+        ty = abs $ realToFrac (diffUTCTime utc (dpIndex y))

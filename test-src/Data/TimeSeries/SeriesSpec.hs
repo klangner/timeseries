@@ -82,10 +82,28 @@ spec = do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
         TS.rolling 3 (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
 
-    it "resampling" $ do
+
+  describe "Resampling" $ do
+
+    it "the same" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
         let startTime = posixSecondsToUTCTime $ fromIntegral 1
-        TS.resample startTime (seconds 2) sum xs `shouldBe` TS.tsSeries [1, 3, 5] [3.0, 7.0, 11.0]
+        TS.resample startTime (seconds 2) xs `shouldBe` TS.tsSeries [1, 3, 5] [1.0, 3.0, 5.0]
+
+    it "missing values" $ do
+        let xs = TS.tsSeries [1, 2, 3, 5] [1.0, 2.0, 3.0, 5.0]
+        let startTime = posixSecondsToUTCTime $ fromIntegral 1
+        TS.resample startTime (seconds 1) xs `shouldBe` TS.tsSeries [1, 2, 3, 4, 5] [1.0, 2.0, 3.0, 4.0, 5.0]
+
+    it "missing lots of values" $ do
+        let xs = TS.tsSeries [1, 5] [1.0, 5.0]
+        let startTime = posixSecondsToUTCTime $ fromIntegral 1
+        TS.resample startTime (seconds 1) xs `shouldBe` TS.tsSeries [1, 2, 3, 4, 5] [1.0, 2.0, 3.0, 4.0, 5.0]
+
+    it "middle values" $ do
+        let xs = TS.tsSeries [1, 3, 5] [1.0, 3.0, 5.0]
+        let startTime = posixSecondsToUTCTime $ fromIntegral 0
+        TS.resample startTime (seconds 2) xs `shouldBe` TS.tsSeries [0, 2, 4] [1.0, 2.0, 4.0]
 
 
 
