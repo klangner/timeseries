@@ -4,6 +4,7 @@ synopsis:       Library for Time Series processing
 License:        BSD3
 License-file:   LICENSE
 Copyright:      (c) 2016 Krzysztof Langner
+stability:      Unstable interface, incomplete features.
 Extra-Source-Files:
                 README.md,
                 CHANGES.md,
