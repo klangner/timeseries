@@ -28,15 +28,15 @@ smallSeries :: TS.Series Double
 smallSeries = TS.tsSeries [1..10^4] [1..]
 
 startTime :: UTCTime
-startTime = posixSecondsToUTCTime $ fromIntegral 1
+startTime = posixSecondsToUTCTime 1
 
 
 main :: IO ()
 main = defaultMain
     [ bgroup "Basic operations"
         [ bench "size"  $ nf TS.size bigSeries
-        , bench "valueAt"  $ nf (\xs -> TS.valueAt lastIndex xs) bigSeries
-        , bench "slice"  $ nf (\xs -> TS.valueAt  (index 1) (TS.slice (index 2) lastIndex xs)) bigSeries
+        , bench "valueAt"  $ nf (TS.valueAt lastIndex) bigSeries
+        , bench "slice"  $ nf (TS.valueAt (index 1) . TS.slice (index 2) lastIndex) bigSeries
         , bench "max"  $ nf maximum bigSeries
         , bench "fmap"  $ nf (fmap (+ 2)) bigSeries
         ]

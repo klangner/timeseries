@@ -7,7 +7,7 @@ import qualified Data.TimeSeries as TS
 
 
 spec :: Spec
-spec = do
+spec =
 
   describe "Base" $ do
 

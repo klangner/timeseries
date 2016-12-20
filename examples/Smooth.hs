@@ -1,5 +1,6 @@
 import Graphics.Rendering.Chart.Easy
 import Graphics.Rendering.Chart.Backend.Diagrams
+import Control.Arrow (first)
 import qualified Statistics.Sample as S
 import qualified Data.Vector as V
 import Data.Time
@@ -9,7 +10,7 @@ import qualified Data.TimeSeries as TS
 
 
 signal :: Num a => TS.Series a -> [(LocalTime, a)]
-signal ts = map (\(x, y) -> (utcToLocalTime utc x, y)) (TS.toList ts)
+signal ts = map (first (utcToLocalTime utc)) (TS.toList ts)
 
 
 main = do

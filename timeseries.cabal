@@ -40,10 +40,11 @@ library
                     vector < 0.12
   exposed-modules:
                     Data.TimeSeries
+                    Data.TimeSeries.Sessions
   other-modules:
-                    Data.TimeSeries.Series,
-                    Data.TimeSeries.Stats,
-                    Data.TimeSeries.Time,
+                    Data.TimeSeries.Series
+                    Data.TimeSeries.Stats
+                    Data.TimeSeries.Time
                     Data.TimeSeries.IO.CSVReader
                     Data.TimeSeries.IO.CSVWriter
 
@@ -65,12 +66,14 @@ test-suite unit-tests
                     time >= 1.5 && < 2,
                     vector < 0.12
   other-modules:
-                    Data.TimeSeries,
-                    Data.TimeSeries.Series,
-                    Data.TimeSeries.Stats,
-                    Data.TimeSeries.Time,
+                    Data.TimeSeries
+                    Data.TimeSeries.Series
+                    Data.TimeSeries.Sessions
+                    Data.TimeSeries.Stats
+                    Data.TimeSeries.Time
                     Data.TimeSeries.SeriesSpec
-                    Data.TimeSeries.TimeSpec,
+                    Data.TimeSeries.SessionsSpec
+                    Data.TimeSeries.TimeSpec
                     Data.TimeSeries.IO.CSVReader
                     Data.TimeSeries.IO.CSVWriter
                     Data.TimeSeries.IO.CSVSpec

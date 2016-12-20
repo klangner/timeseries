@@ -1,6 +1,7 @@
 module Data.TimeSeries.SeriesSpec (spec) where
 
 import Test.Hspec
+import Control.Arrow (first)
 import Data.Time (UTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime, utcTimeToPOSIXSeconds)
 import qualified Statistics.Sample as S
@@ -17,23 +18,23 @@ sampleSeries = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.6, 11.0]
 spec :: Spec
 spec = do
 
-  describe "Converting Series" $ do
+  describe "Converting Series" $
 
     it "toList" $ do
         let xs = TS.toList sampleSeries
-        map (\(x, y) -> (utcTimeToPOSIXSeconds x, y)) xs `shouldBe` [(1, 10.0), (2, 1.2), (3, 32.4), (4, 0.6), (5, 11.0)]
+        map (first utcTimeToPOSIXSeconds) xs `shouldBe` [(1, 10.0), (2, 1.2), (3, 32.4), (4, 0.6), (5, 11.0)]
 
 
   describe "Selecting sub Series" $ do
 
     it "return data point value at given index" $ do
-        let pos = posixSecondsToUTCTime $ fromIntegral 2
+        let pos = posixSecondsToUTCTime 2
         TS.valueAt pos sampleSeries `shouldBe` Just 1.2
 
     it "return Nothing value if wrong index" $ do
         let idx = [10, 20, 30]
         let values = [10.0, 12.0, 32.4]
-        let pos = posixSecondsToUTCTime $ fromIntegral 1234
+        let pos = posixSecondsToUTCTime 1234
         TS.valueAt pos (TS.tsSeries idx values) `shouldBe` Nothing
 
     it "return subset" $ do
@@ -60,8 +61,8 @@ spec = do
         let ys = fmap (+ 2) xs
         TS.values ys `shouldBe` [12.0, 3.2, 34.4, 2.65, 13.0]
 
-    it "fold over series" $ do
-        foldr (\v acc -> v + acc) 0.0 sampleSeries `shouldBe` 55.2
+    it "fold over series" $
+        foldr (+) 0.0 sampleSeries `shouldBe` 55.2
 
     it "maximum value" $ do
         let xs = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.65, 11.0]
@@ -87,22 +88,22 @@ spec = do
 
     it "the same" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-        let startTime = posixSecondsToUTCTime $ fromIntegral 1
+        let startTime = posixSecondsToUTCTime 1
         TS.resample startTime (seconds 2) xs `shouldBe` TS.tsSeries [1, 3, 5] [1.0, 3.0, 5.0]
 
     it "missing values" $ do
         let xs = TS.tsSeries [1, 2, 3, 5] [1.0, 2.0, 3.0, 5.0]
-        let startTime = posixSecondsToUTCTime $ fromIntegral 1
+        let startTime = posixSecondsToUTCTime 1
         TS.resample startTime (seconds 1) xs `shouldBe` TS.tsSeries [1, 2, 3, 4, 5] [1.0, 2.0, 3.0, 4.0, 5.0]
 
     it "missing lots of values" $ do
         let xs = TS.tsSeries [1, 5] [1.0, 5.0]
-        let startTime = posixSecondsToUTCTime $ fromIntegral 1
+        let startTime = posixSecondsToUTCTime 1
         TS.resample startTime (seconds 1) xs `shouldBe` TS.tsSeries [1, 2, 3, 4, 5] [1.0, 2.0, 3.0, 4.0, 5.0]
 
     it "middle values" $ do
         let xs = TS.tsSeries [1, 3, 5] [1.0, 3.0, 5.0]
-        let startTime = posixSecondsToUTCTime $ fromIntegral 0
+        let startTime = posixSecondsToUTCTime 0
         TS.resample startTime (seconds 2) xs `shouldBe` TS.tsSeries [0, 2, 4] [1.0, 2.0, 4.0]
 
 

@@ -8,9 +8,9 @@ import qualified Data.TimeSeries.IO.CSVReader as CSV
 
 
 spec :: Spec
-spec = do
+spec =
 
-  describe "Reader" $ do
+  describe "Reader" $
 
     it "co2 test data" $ do
         xs <- CSV.loadCSV CSV.HasHeader parseISODateTime "testdata/co2.csv"

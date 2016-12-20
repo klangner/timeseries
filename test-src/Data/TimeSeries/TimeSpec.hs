@@ -8,7 +8,7 @@ import Data.TimeSeries
 
 
 spec :: Spec
-spec = do
+spec =
 
   describe "Time resolution" $ do
 
