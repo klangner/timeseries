@@ -8,21 +8,25 @@ Portability: portable
 Definition and basic operation on Series.
 -}
 
-module Data.TimeSeries.Series
-    ( DataPoint
+module Data.TimeSeries.Series (
+    -- * Series datatype
+      DataPoint
     , Series
     , dpIndex
     , dpValue
+    -- * Create series
     , emptySeries
+    , tsSeries
+    , series
+    -- * Conversion between types
+    , toList
+    , values
+    -- * Selecting data from series
     , rolling
     , resample
-    , series
     , size
     , slice
-    , toList
-    , tsSeries
     , valueAt
-    , values
     ) where
 
 import Prelude hiding (max, min)
@@ -65,7 +69,7 @@ emptySeries = Series []
 
 -- | Create series
 series :: [(UTCTime, a)] -> Series a
-series xs = Series $ map (\(x, y) -> DP x y) xs
+series xs = Series $ map (uncurry DP) xs
 
 
 -- | Create time series from timestamps and values
@@ -86,7 +90,7 @@ toList (Series xs) = map (\(DP x y) -> (x, y)) xs
 
 -- | Get series values
 values :: Series a -> [a]
-values ts = map (\(_, y) -> y) (toList ts)
+values ts = map snd (toList ts)
 
 
 -- | Get series size.
@@ -166,6 +170,6 @@ resample' utc res y (x:xs)
     | otherwise         = resample' utc res x xs
     where
         utc2 = nextTime res utc
-        mu = (ty/(tx+ty)) * (dpValue x) + ((tx/(tx+ty)) * (dpValue y))
+        mu = (ty/(tx+ty)) * dpValue x + ((tx/(tx+ty)) * dpValue y)
         tx = abs $ realToFrac (diffUTCTime utc (dpIndex x))
         ty = abs $ realToFrac (diffUTCTime utc (dpIndex y))

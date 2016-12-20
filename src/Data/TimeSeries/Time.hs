@@ -23,12 +23,12 @@ data TimeResolution = Years Integer
 
 -- | Create Time Resolution from days
 days :: Integer -> TimeResolution
-days n = Days n
+days = Days
 
 
 -- | Create Time Resolution from months
 months :: Integer -> TimeResolution
-months n = Months n
+months = Months
 
 
 -- | Create Time Resolution from seconds
@@ -38,7 +38,7 @@ seconds n = Seconds (fromIntegral n)
 
 -- | Create Time Resolution from years
 years :: Integer -> TimeResolution
-years n = Years n
+years = Years
 
 
 -- | Return Time Series mean
