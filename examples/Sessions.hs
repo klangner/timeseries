@@ -1,13 +1,25 @@
 import Data.Time
 import Data.Text.Time (parseISODateTime)
 
+import Data.List (sortOn)
 import qualified Data.TimeSeries as TS
 import qualified Data.TimeSeries.Sessions as S
 
 
+-- Find rains with highest intensity
+-- To find when rain event start and stop we use find function from Sessions module
+-- To classify rains we take max 6h intensity (sum of precipitation) during the event
+-- Then we sort rains and print the heaviest ones to the console
+--
 main = do
     ts <- TS.loadCSV TS.HasHeader parseISODateTime "testdata/rain.csv"
-    let utc = UTCTime (fromGregorian 2013 7 1) 0
-    let xs = S.find (TS.seconds (6*3600)) (fmap (\x -> x > 0.1) ts)
-    let xs' = filter (\(S.Session x y) -> x < utc) xs
-    mapM (putStrLn . show) xs'
+    let ss = S.find (TS.seconds (6*3600)) (fmap (> 0.1) ts)
+    let ts' = TS.rolling (TS.seconds (6*3600)) sum ts
+    let xs = map (\s -> (s, maxIntensity s ts')) ss
+    let xs' = filter (\x -> snd x > 20) xs
+    let xs'' = sortOn snd xs'
+    mapM print xs''
+
+
+maxIntensity :: Ord a => S.Session -> TS.Series a -> a
+maxIntensity (S.Session t1 t2) ts = maximum (TS.slice t1 t2 ts)
