@@ -43,6 +43,12 @@ spec = do
         let end = utcFromSeconds 3
         TS.size (TS.slice start end xs) `shouldBe` 2
 
+    it "return range" $ do
+        let xs = TS.tsSeries [0, 5..] [1.0, 1.2, 32.4, 0.65, 11.0]
+        let start = utcFromSeconds 2
+        let end = utcFromSeconds 130
+        TS.size (TS.slice start end xs) `shouldBe` 4
+
     it "return empty subset" $ do
         let xs = TS.tsSeries [1..5] [10.0, 1.2, 32.4, 0.65, 11.0]
         let start = utcFromSeconds 12
