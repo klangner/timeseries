@@ -15,6 +15,9 @@ import Data.Time( UTCTime(..)
                 , addUTCTime)
 
 
+-- | TimeResolution is for holding time periods which can't easy be translated to number of seconds
+--   For example day doesn't always have 86400 and month have different number of days.
+--   So if we want to define 1 month period we can't use DiffTime for it.
 data TimeResolution = Years Integer
                     | Months Integer
                     | Days Integer

@@ -15,6 +15,7 @@ Implemented functionality:
   * Calculate statistics
     * min, max
     * median, variance, standard deviation
+  * Finding sessions (periods of activity with small breaks)
 
 
 ## Installation

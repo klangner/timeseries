@@ -77,11 +77,11 @@ spec = do
 
     it "rolling window" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
-        TS.rolling 2 sum xs `shouldBe` TS.tsSeries [2..] [3.0, 5.0, 7.0, 9.0]
+        TS.rolling (TS.seconds 2) sum xs `shouldBe` TS.tsSeries [2..] [3.0, 5.0, 7.0, 9.0]
 
     it "smoothing" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
-        TS.rolling 3 (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
+        TS.rolling (TS.seconds 3) (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
 
 
   describe "Resampling" $ do

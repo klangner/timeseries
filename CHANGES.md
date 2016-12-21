@@ -1,6 +1,7 @@
 # Version 0.4
 
   * reimplemented resampling function
+  * Implemented Sessions
 
 
 # Version 0.3 (2016-12-18)

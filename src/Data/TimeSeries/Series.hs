@@ -31,7 +31,6 @@ module Data.TimeSeries.Series (
 
 import Prelude hiding (max, min)
 import Data.Time ( UTCTime
-                 , NominalDiffTime
                  , diffUTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
@@ -131,14 +130,14 @@ slice start end (Series xs) = Series [DP x y | DP x y <- xs, x >= start && x <= 
 
 -- | Apply function to rolling window to create new Series
 -- Rolling window is also called Sliding Window.
-rolling ::  NominalDiffTime -- ^ Window size
+rolling ::  TimeResolution  -- ^ Window size
         -> ([a] -> b)       -- ^ Function applied to each window
         -> Series a         -- ^ Input Series
         -> Series b         -- ^ Converted Series
 rolling dt f (Series xs) = Series $ map (\(i, vs) -> DP i (f vs)) (windows dt xs)
 
 -- Create rolling windows based on given delta time.
-windows ::  NominalDiffTime -> [DataPoint a] -> [(UTCTime, [a])]
+windows ::  TimeResolution -> [DataPoint a] -> [(UTCTime, [a])]
 windows _ [] = []
 windows dt xs = g ys : if length xs > length ys then windows dt (tail xs) else []
     where
@@ -148,8 +147,8 @@ windows dt xs = g ys : if length xs > length ys then windows dt (tail xs) else [
         g vs = (dpIndex (last vs), values (Series vs))
 
 -- Check if two DataPoints are closer then given time difference
-isInTimeRange :: NominalDiffTime -> DataPoint a -> DataPoint a -> Bool
-isInTimeRange dt (DP i _) (DP j _) = diffUTCTime j i < dt
+isInTimeRange :: TimeResolution -> DataPoint a -> DataPoint a -> Bool
+isInTimeRange dt (DP i _) (DP j _) = j < nextTime dt i
 
 
 -- | Resample Time series
