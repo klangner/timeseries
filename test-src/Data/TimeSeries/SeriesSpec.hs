@@ -1,5 +1,6 @@
 module Data.TimeSeries.SeriesSpec (spec) where
 
+import Prelude
 import Test.Hspec
 import Control.Arrow (first)
 import Data.Time (UTCTime)

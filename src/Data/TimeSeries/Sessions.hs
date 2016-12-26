@@ -1,9 +1,10 @@
-
 module Data.TimeSeries.Sessions
     ( Session(..)
     , find
     ) where
 
+
+import Prelude
 import Data.Time (UTCTime)
 import Data.TimeSeries.Series (Series, toList)
 

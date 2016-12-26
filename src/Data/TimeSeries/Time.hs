@@ -8,6 +8,7 @@ module Data.TimeSeries.Time
     , years
     ) where
 
+import Prelude (Integer, Int, fromIntegral, (*))
 import Data.Time( UTCTime(..)
                 , NominalDiffTime
                 , addDays

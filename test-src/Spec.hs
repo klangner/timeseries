@@ -1,3 +1,5 @@
+
+import Prelude
 import Test.Hspec
 import qualified Data.TimeSeries.SeriesSpec
 import qualified Data.TimeSeries.SessionsSpec

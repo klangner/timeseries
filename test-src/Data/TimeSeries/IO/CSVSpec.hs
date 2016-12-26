@@ -1,5 +1,6 @@
 module Data.TimeSeries.IO.CSVSpec (spec) where
 
+import Prelude
 import Test.Hspec
 import Data.Text.Time (parseISODateTime)
 

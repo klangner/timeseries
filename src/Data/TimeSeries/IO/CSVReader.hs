@@ -7,6 +7,7 @@ module Data.TimeSeries.IO.CSVReader
     )where
 
 
+import Prelude
 import qualified Data.ByteString.Lazy as BS
 import qualified Data.Text as T
 import qualified Data.Csv as CSV

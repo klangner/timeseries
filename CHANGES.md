@@ -1,4 +1,9 @@
-# Version 0.4
+# Version 0.5
+
+  * Removed implicit Prelude from cabal
+
+
+# Version 0.4 (2016-12-22)
 
   * reimplemented resampling function
   * Implemented Sessions

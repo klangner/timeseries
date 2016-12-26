@@ -1,5 +1,6 @@
 module Data.TimeSeries.TimeSpec (spec) where
 
+import Prelude
 import Data.Time hiding (months)
 import Test.Hspec
 import Test.QuickCheck

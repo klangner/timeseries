@@ -1,5 +1,6 @@
 module Data.TimeSeries.StatsSpec (spec) where
 
+import Prelude
 import Test.Hspec
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime, utcTimeToPOSIXSeconds)
 
