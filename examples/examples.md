@@ -1,23 +1,29 @@
 # Examples
 
+The haskell files in this directory show some usage of timeseries library.
   * PlotSeries - Plot sample Time Series.
   * Smooth - Plot original and smoothed series
 
 
-## Install chart package
+## PlotSeries.hs
+
+This example show how to load Time Series from csv file and plot it using
+the chart library.
+
+![Series plot](images/co2.svg)
+
+
+# Running the examples
+
+Install packages required by examples:
 
 ```sh
 cabal update
 cabal install chart-diagrams
 ```
 
-## Compile and run examples
-
+Run example:
 ```bash
-mkdir temp
-ghc -O2 --make -isrc -outputdir out -o out/plot-series examples/PlotSeries.hs
-```
-
-```bash
-temp/plot-series
+mkdir out
+runhaskell -isrc examples/PlotSeries.hs
 ```
