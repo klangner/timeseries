@@ -1,4 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-|
+Module:      Data.TimeSeries.IO.CSVWriter
+Copyright:   (c) 2016 Krzysztof Langner
+License:     BSD3
+Stability:   experimental
+Portability: portable
+Write Time Series to the csv file.
+-}
 
 module Data.TimeSeries.IO.CSVWriter( saveCSV ) where
 

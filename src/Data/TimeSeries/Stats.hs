@@ -1,3 +1,11 @@
+{-|
+Module:      Data.TimeSeries.Stats
+Copyright:   (c) 2016 Krzysztof Langner
+License:     BSD3
+Stability:   experimental
+Portability: portable
+Calculate Series statistics.
+-}
 
 module Data.TimeSeries.Stats
     ( mean

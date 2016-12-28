@@ -1,6 +1,14 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE OverloadedStrings #-}
 
+{-|
+Module:      Data.TimeSeries.IO.CSVReader
+Copyright:   (c) 2016 Krzysztof Langner
+License:     BSD3
+Stability:   experimental
+Portability: portable
+Reading Time Series from CSV file
+-}
 module Data.TimeSeries.IO.CSVReader
     ( HasHeader(..)
     , loadCSV
@@ -19,6 +27,7 @@ import           Data.TimeSeries.Series ( Series
                                         , series
                                         )
 
+-- | Define if csv file has header
 data HasHeader = HasHeader | NoHeader
 
 -- | Load data from CSV file and create Time Series from it

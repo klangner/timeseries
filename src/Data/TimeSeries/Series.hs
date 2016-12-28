@@ -37,9 +37,10 @@ import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 import Data.TimeSeries.Time (TimeResolution, nextTime)
 
 
--- | Data points is single index value od time series
-data DataPoint a = DP { dpIndex :: !UTCTime
-                      , dpValue :: a }
+-- | Data points is a time indexed value
+data DataPoint a = DP { dpIndex :: !UTCTime     -- ^ Get data point index.
+                      , dpValue :: a            -- ^ Get data point value.
+                      }
                  deriving (Show, Eq)
 
 instance Functor DataPoint where
@@ -61,12 +62,12 @@ instance Foldable Series where
     length = size
 
 
--- | Create empty series
+-- | Create empty series.
 emptySeries :: Series a
 emptySeries = Series []
 
 
--- | Create series
+-- | Create series from UTCTime and value.
 series :: [(UTCTime, a)] -> Series a
 series xs = Series $ map (uncurry DP) xs
 
@@ -82,12 +83,12 @@ tsSeries ts vs = Series (zipWith DP idx vs)
     where idx = map (posixSecondsToUTCTime . fromIntegral) ts
 
 
--- | Convert Time Series to list
+-- | Convert Time Series to the list.
 toList :: Series a -> [(UTCTime, a)]
 toList (Series xs) = map (\(DP x y) -> (x, y)) xs
 
 
--- | Get series values
+-- | Get series values as list.
 values :: Series a -> [a]
 values ts = map snd (toList ts)
 
@@ -115,7 +116,7 @@ valueAt ts (Series xs) = safeHead [y | DP x y <- xs, x == ts]
           safeHead (i:_) = Just i
 
 
--- | Return series subset
+-- | Return series subset.
 -- Complexity O(n)
 --
 -- >slice (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 2 3 == Series [DP 2 52.22, DP 3 3.0]
@@ -128,7 +129,7 @@ slice :: UTCTime        -- ^ Start time (inclusive)
 slice start end (Series xs) = Series [DP x y | DP x y <- xs, x >= start && x <= end]
 
 
--- | Apply function to rolling window to create new Series
+-- | Apply rolling window to create a new Series.
 -- Rolling window is also called Sliding Window.
 rolling ::  TimeResolution  -- ^ Window size
         -> ([a] -> b)       -- ^ Function applied to each window
@@ -151,7 +152,7 @@ isInTimeRange :: TimeResolution -> DataPoint a -> DataPoint a -> Bool
 isInTimeRange dt (DP i _) (DP j _) = j < nextTime dt i
 
 
--- | Resample Time series
+-- | Resample Series.
 resample :: Fractional a
          => UTCTime             -- ^ Starting time
          -> TimeResolution      -- ^ Resampling resolution

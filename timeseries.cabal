@@ -76,6 +76,7 @@ test-suite unit-tests
                     Data.TimeSeries.Stats
                     Data.TimeSeries.Time
                     Data.TimeSeries.SeriesSpec
+                    Data.TimeSeries.StatsSpec
                     Data.TimeSeries.SessionsSpec
                     Data.TimeSeries.TimeSpec
                     Data.TimeSeries.IO.CSVReader

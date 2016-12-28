@@ -1,4 +1,11 @@
--- | Helper functions operating on date and Time
+{-|
+Module:      Data.TimeSeries.Time
+Copyright:   (c) 2016 Krzysztof Langner
+License:     BSD3
+Stability:   experimental
+Portability: portable
+Helper functions operating on date and Time
+-}
 module Data.TimeSeries.Time
     ( TimeResolution
     , days

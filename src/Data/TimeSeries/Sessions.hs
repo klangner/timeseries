@@ -1,3 +1,12 @@
+{-|
+Module:      Data.TimeSeries.Sessions
+Copyright:   (c) 2016 Krzysztof Langner
+License:     BSD3
+Stability:   experimental
+Portability: portable
+Operation on sessions.
+-}
+
 module Data.TimeSeries.Sessions
     ( Session(..)
     , find
@@ -23,7 +32,7 @@ data Session = Session { sessionStart :: UTCTime
                        deriving (Eq, Show)
 
 
--- | Find all session in a given time series
+-- | Find all session in a given Time Series
 find :: TimeResolution -> Series Bool -> [Session]
 find dt ts = map (uncurry Session) xs'
     where
