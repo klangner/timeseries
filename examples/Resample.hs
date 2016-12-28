@@ -15,7 +15,7 @@ main = do
     ts <- TS.loadCSV TS.HasHeader parseISODateTime "testdata/co2.csv"
     let startTime = UTCTime (fromGregorian 1965 1 1) 0
     let xs = TS.resample startTime (TS.years 1) ts
-    toFile def "temp/co2_resample.svg" $ do
+    toFile def "out/co2_resample.svg" $ do
         layout_title .= "CO2 level"
         setColors [opaque blue, opaque red]
         plot (line "CO2" [signal ts])

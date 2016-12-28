@@ -17,7 +17,7 @@ main = do
     ts <- TS.loadCSV TS.HasHeader parseISODateTime "testdata/co2.csv"
     let y3 = TS.years 3
     let xs = TS.rolling y3 (S.mean . V.fromList) ts
-    toFile def "temp/co2_smooth.svg" $ do
+    toFile def "out/co2_smooth.svg" $ do
         layout_title .= "CO2 level"
         setColors [opaque blue, opaque red]
         plot (line "CO2" [signal ts])
