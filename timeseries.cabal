@@ -1,5 +1,5 @@
 name:           timeseries
-version:        0.5.0
+version:        0.4.1
 synopsis:       Library for Time Series processing
 License:        BSD3
 License-file:   LICENSE

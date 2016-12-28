@@ -13,8 +13,11 @@ import Data.TimeSeries.Time(TimeResolution, nextTime)
 
 -- | Session is a time range of a single event
 --   Some examples:
+--
 --     * Session with web application
+--
 --     * Rain event
+--
 data Session = Session { sessionStart :: UTCTime
                        , sessionEnd :: UTCTime }
                        deriving (Eq, Show)
