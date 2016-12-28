@@ -1,4 +1,3 @@
-{-# ANN module "HLint: ignore Use import/export shortcut" #-}
 -- | TimeSeries library
 module Data.TimeSeries
     ( module Data.TimeSeries.Series
