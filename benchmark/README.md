@@ -31,9 +31,7 @@ Browse the results
 firefox out/bench.html
 ```
 
-## Memory usage
-
-Latest benchmark:
+## Latest benchmark
 
 ```
 benchmarking Basic operations/size
