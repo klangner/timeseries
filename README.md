@@ -10,12 +10,11 @@ Implemented functionality:
     * get value
     * slice
   * Mapping and folding Series
-  * Rolling window operation
-  * Resampling based on time
+  * Rolling window, Resampling and groupBy functions with time resolution
   * Calculate statistics
     * min, max
     * median, variance, standard deviation
-  * Finding sessions (periods of activity with small breaks)
+  * Finding sessions (periods of activity)
 
 
 ## Installation
