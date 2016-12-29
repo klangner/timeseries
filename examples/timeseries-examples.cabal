@@ -11,7 +11,55 @@ executable PlotSeries
   build-depends:
     base,
     bytestring,
-    chart-diagrams,
+    Chart,
+    Chart-diagrams,
+    process,
+    text-time,
+    time,
     timeseries,
+    vector
+  default-language:    Haskell2010
+
+executable Resample
+  main-is: Resample.hs
+  build-depends:
+    base,
+    bytestring,
+    Chart,
+    Chart-diagrams,
+    process,
+    text-time,
+    time,
+    timeseries,
+    vector
+  default-language:    Haskell2010
+
+executable Smooth
+  main-is: Smooth.hs
+  build-depends:
+    base,
+    bytestring,
+    Chart,
+    Chart-diagrams,
+    process,
+    text-time,
+    time,
+    timeseries,
+    statistics,
+    vector
+  default-language:    Haskell2010
+
+executable Sessions
+  main-is: Sessions.hs
+  build-depends:
+    base,
+    bytestring,
+    Chart,
+    Chart-diagrams,
+    process,
+    text-time,
+    time,
+    timeseries,
+    statistics,
     vector
   default-language:    Haskell2010

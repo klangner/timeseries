@@ -5,6 +5,7 @@ The haskell files in this directory show some usage of timeseries library.
 To build these examples using the in-tree version of timeseries, run:
 
 ```
+caba sandbox init
 cabal sandbox add-source ../src
 cabal install --only-dependencies
 cabal build
@@ -12,6 +13,12 @@ cabal build
 
 
 ## PlotSeries.hs
+
+Usage:
+
+```
+PlotSeries data/co2.csv
+```
 
 This example shows how to load Time Series from csv file and plot it using
 the chart library.
@@ -21,12 +28,20 @@ the chart library.
 
 ## Resample.hs
 
+```
+Resample data/co2.csv
+```
+
 Resampling time series. Here is the same TimeSeries resampled with 1 year resolution.
 
 ![Resampled](https://rawgit.com/klangner/timeseries/master/examples/images/co2_resample.svg)
 
 
-## Smoothing
+## Smooth.hs
+
+```
+Smooth data/co2.csv
+```
 
 Smoothing time series with rolling window of the 3 years size.
 
@@ -34,6 +49,10 @@ Smoothing time series with rolling window of the 3 years size.
 
 
 ## Sessions
+
+```
+Sessions data/rain.csv
+```
 
 This example show how to find all rain events using sessions functionality.
 Rain event is defined as continuous rainfall with the breaks shorter then 6 hours.
@@ -48,17 +67,3 @@ Some found sessions:
 ```
 
 
-## Running the examples
-
-Install packages required by examples:
-
-```sh
-cabal update
-cabal install chart-diagrams
-```
-
-Run example:
-```bash
-mkdir out
-runhaskell -isrc examples/PlotSeries.hs
-```

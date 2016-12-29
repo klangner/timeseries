@@ -10,7 +10,7 @@ Extra-Source-Files:
                 CHANGES.md,
                 LICENSE,
                 examples/*.hs,
-                examples/*.csv,
+                examples/data/*.csv,
                 benchmark/*.hs,
                 benchmark/*.csv
 description:

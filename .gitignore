@@ -2,3 +2,6 @@
 timeseries.iml
 .stack-work
 out
+cabal.sandbox.config
+.cabal-sandbox
+dist

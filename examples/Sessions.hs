@@ -1,3 +1,4 @@
+import System.Environment (getArgs)
 import Data.Time
 import Data.Text.Time (parseISODateTime)
 
@@ -12,7 +13,9 @@ import qualified Data.TimeSeries.Sessions as S
 -- Then we sort rains and print the heaviest ones to the console
 --
 main = do
-    ts <- TS.loadCSV TS.HasHeader parseISODateTime "testdata/rain.csv"
+    args <- getArgs
+    let fn = head args
+    ts <- TS.loadCSV TS.HasHeader parseISODateTime fn
     let ss = S.find (TS.seconds (6*3600)) (fmap (> 0.1) ts)
     let ts' = TS.rolling (TS.seconds (6*3600)) sum ts
     let xs = map (\s -> (s, maxIntensity s ts')) ss
