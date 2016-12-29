@@ -10,7 +10,7 @@ cabal install -j --disable-tests criterion
 Create folder for the temporary files
 
 ```sh
-mkdir temp
+mkdir out
 ```
 
 Build the benchmarking application.
@@ -22,13 +22,13 @@ ghc -O2 -rtsopts --make -isrc -outputdir out -o out/bench benchmark/Benchmarks.h
 Run performance tests
 
 ```sh
-temp/bench --output temp/bench.html +RTS -s
+out/bench --output out/bench.html +RTS -s
 ```
 
 Browse the results
 
 ```sh
-firefox output/bench.html
+firefox out/bench.html
 ```
 
 ## Memory usage

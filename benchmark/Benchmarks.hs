@@ -41,9 +41,9 @@ main = defaultMain
         , bench "fmap"  $ nf (fmap (+ 2)) bigSeries
         ]
     , bgroup "Group operation"
-        [ bench "rolling" $ nf (TS.rolling 20 sum) smallSeries
+        [ bench "rolling" $ nf (TS.rolling (TS.seconds 20) sum) smallSeries
         , bench "resampling" $ nf (TS.resample startTime (TS.seconds 20)) smallSeries
         ]
     , bgroup "IO"
-        [ bench "load CSV" $ nfIO (TS.loadCSV TS.NoHeader parseISODateTime "testdata/test-100K.csv") ]
+        [ bench "load CSV" $ nfIO (TS.loadCSV TS.NoHeader parseISODateTime "test-100K.csv") ]
     ]
