@@ -80,13 +80,16 @@ spec = do
         minimum xs `shouldBe` 0.65
 
 
-  describe "Group operations" $ do
+  describe "Rolling" $ do
 
-    it "rolling window" $ do
+    it "sum" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
         TS.rolling (TS.seconds 2) sum xs `shouldBe` TS.tsSeries [2..] [3.0, 5.0, 7.0, 9.0]
 
-    it "smoothing" $ do
+
+  describe "Smoothing" $ do
+
+    it "mean" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
         TS.rolling (TS.seconds 3) (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
 
@@ -112,6 +115,18 @@ spec = do
         let xs = TS.tsSeries [1, 3, 5] [1.0, 3.0, 5.0]
         let startTime = posixSecondsToUTCTime 0
         TS.resample startTime (seconds 2) xs `shouldBe` TS.tsSeries [0, 2, 4] [1.0, 2.0, 4.0]
+
+
+  describe "Group by" $ do
+
+    it "the same" $ do
+        let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        let startTime = posixSecondsToUTCTime 1
+        TS.groupBy (seconds 1) sum xs `shouldBe` xs
+
+    it "sum" $ do
+        let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        TS.groupBy (TS.seconds 2) sum xs `shouldBe` TS.tsSeries [1, 3, 5] [3.0, 7.0, 11.0]
 
 
 

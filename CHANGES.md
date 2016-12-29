@@ -1,6 +1,7 @@
 # Version 0.5
 
   * Removed implicit Prelude from cabal
+  * Implemented groupBy
 
 
 # Version 0.4 (2016-12-22)

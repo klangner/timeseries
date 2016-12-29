@@ -22,11 +22,13 @@ module Data.TimeSeries.Series (
     , toList
     , values
     -- * Selecting data from series
+    , slice
+    , valueAt
+    -- * Transformations
+    , groupBy
     , rolling
     , resample
     , size
-    , slice
-    , valueAt
     ) where
 
 import Prelude hiding (max, min)
@@ -131,14 +133,14 @@ slice start end (Series xs) = Series [DP x y | DP x y <- xs, x >= start && x <= 
 
 -- | Apply rolling window to create a new Series.
 -- Rolling window is also called Sliding Window.
-rolling ::  TimeResolution  -- ^ Window size
+rolling :: TimeResolution   -- ^ Window size
         -> ([a] -> b)       -- ^ Function applied to each window
         -> Series a         -- ^ Input Series
         -> Series b         -- ^ Converted Series
 rolling dt f (Series xs) = Series $ map (\(i, vs) -> DP i (f vs)) (windows dt xs)
 
 -- Create rolling windows based on given delta time.
-windows ::  TimeResolution -> [DataPoint a] -> [(UTCTime, [a])]
+windows :: TimeResolution -> [DataPoint a] -> [(UTCTime, [a])]
 windows _ [] = []
 windows dt xs = g ys : if length xs > length ys then windows dt (tail xs) else []
     where
@@ -153,6 +155,9 @@ isInTimeRange dt (DP i _) (DP j _) = j < nextTime dt i
 
 
 -- | Resample Series.
+-- Resample takes weighted mean value between 2 data points.
+-- Where weight is based on distance to resampled point.
+-- This helps to provide approximate value in the case of lots of missing values
 resample :: Fractional a
          => UTCTime             -- ^ Starting time
          -> TimeResolution      -- ^ Resampling resolution
@@ -173,3 +178,25 @@ resample' utc res y (x:xs)
         mu = (ty/(tx+ty)) * dpValue x + ((tx/(tx+ty)) * dpValue y)
         tx = abs $ realToFrac (diffUTCTime utc (dpIndex x))
         ty = abs $ realToFrac (diffUTCTime utc (dpIndex y))
+
+
+-- | Group data by given time frame
+-- This function expect that the time series has enough data points to group values.
+groupBy :: TimeResolution   -- ^ Window size
+        -> ([a] -> b)       -- ^ Function applied to group values
+        -> Series a         -- ^ Input Series
+        -> Series b         -- ^ Converted Series
+groupBy _ _ (Series []) = emptySeries
+groupBy res f (Series xs) = Series (map (\(i, vs) -> DP i (f (g vs))) (groupBy' utc res xs))
+    where
+        g :: [DataPoint a] -> [a]
+        g  = map dpValue
+        utc = dpIndex (head xs)
+
+
+groupBy' :: UTCTime -> TimeResolution -> [DataPoint a] -> [(UTCTime, [DataPoint a])]
+groupBy' _ _ [] = []
+groupBy' utc res xs = (utc, ys) : groupBy' utc2 res zs
+    where
+        utc2 = nextTime res utc
+        (ys, zs) = break (\(DP x _) -> x >= utc2) xs
