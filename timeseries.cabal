@@ -9,9 +9,10 @@ Extra-Source-Files:
                 README.md,
                 CHANGES.md,
                 LICENSE,
-                examples/*.hs
+                examples/*.hs,
+                examples/*.csv,
                 benchmark/*.hs,
-                testdata/*.csv
+                benchmark/*.csv
 description:
     Library for processing time series data.
 

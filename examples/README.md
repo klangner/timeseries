@@ -2,6 +2,14 @@
 
 The haskell files in this directory show some usage of timeseries library.
 
+To build these examples using the in-tree version of timeseries, run:
+
+```
+cabal sandbox add-source ../src
+cabal install --only-dependencies
+cabal build
+```
+
 
 ## PlotSeries.hs
 
@@ -40,7 +48,7 @@ Some found sessions:
 ```
 
 
-# Running the examples
+## Running the examples
 
 Install packages required by examples:
 
