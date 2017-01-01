@@ -2,6 +2,7 @@ module Data.TimeSeries.SeriesSpec (spec) where
 
 import Prelude
 import Test.Hspec
+import Test.QuickCheck
 import Control.Arrow (first)
 import Data.Time (UTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime, utcTimeToPOSIXSeconds)
@@ -19,11 +20,10 @@ sampleSeries = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.6, 11.0]
 spec :: Spec
 spec = do
 
-  describe "Converting Series" $
+  describe "Properties" $
 
-    it "toList" $ do
-        let xs = TS.toList sampleSeries
-        map (first utcTimeToPOSIXSeconds) xs `shouldBe` [(1, 10.0), (2, 1.2), (3, 32.4), (4, 0.6), (5, 11.0)]
+    it "toList" $ property $
+        \ts -> (TS.series . TS.toList) ts == (ts :: TS.Series Double)
 
 
   describe "Selecting sub Series" $ do
@@ -133,3 +133,10 @@ spec = do
 
 utcFromSeconds :: Integer -> UTCTime
 utcFromSeconds = posixSecondsToUTCTime . fromIntegral
+
+
+-- Generate Time Series
+instance (Arbitrary a) => Arbitrary (TS.Series a) where
+  arbitrary = do
+      vs <- arbitrary
+      return $ TS.tsSeries [1..] vs
