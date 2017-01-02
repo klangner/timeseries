@@ -20,10 +20,19 @@ sampleSeries = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.6, 11.0]
 spec :: Spec
 spec = do
 
-  describe "Properties" $
+  describe "Properties" $ do
 
     it "toList" $ property $
         \ts -> (TS.series . TS.toList) ts == (ts :: TS.Series Double)
+
+    it "fold over series" $ property $
+        \ts -> (foldr (+) 0.0 ts) - ((sum . (map snd) . TS.toList) (ts :: TS.Series Double)) < 10**(-6)
+
+    it "resampling the same" $ property $
+        \ts -> TS.resample (posixSecondsToUTCTime 1) (seconds 1) ts == (ts :: TS.Series Double)
+
+    it "groupBy the same" $ property $
+        \ts -> TS.groupBy (seconds 1) sum ts == (ts :: TS.Series Double)
 
 
   describe "Selecting sub Series" $ do
@@ -68,9 +77,6 @@ spec = do
         let ys = fmap (+ 2) xs
         TS.values ys `shouldBe` [12.0, 3.2, 34.4, 2.65, 13.0]
 
-    it "fold over series" $
-        foldr (+) 0.0 sampleSeries `shouldBe` 55.2
-
     it "maximum value" $ do
         let xs = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.65, 11.0]
         maximum xs `shouldBe` 32.4
@@ -96,11 +102,6 @@ spec = do
 
   describe "Resampling" $ do
 
-    it "the same" $ do
-        let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-        let startTime = posixSecondsToUTCTime 1
-        TS.resample startTime (seconds 2) xs `shouldBe` TS.tsSeries [1, 3, 5] [1.0, 3.0, 5.0]
-
     it "missing values" $ do
         let xs = TS.tsSeries [1, 2, 3, 5] [1.0, 2.0, 3.0, 5.0]
         let startTime = posixSecondsToUTCTime 1
@@ -119,24 +120,19 @@ spec = do
 
   describe "Group by" $ do
 
-    it "the same" $ do
-        let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-        let startTime = posixSecondsToUTCTime 1
-        TS.groupBy (seconds 1) sum xs `shouldBe` xs
-
     it "sum" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
         TS.groupBy (TS.seconds 2) sum xs `shouldBe` TS.tsSeries [1, 3, 5] [3.0, 7.0, 11.0]
 
 
 
-
+-- Convert to UTC Time from timestamp
 utcFromSeconds :: Integer -> UTCTime
 utcFromSeconds = posixSecondsToUTCTime . fromIntegral
 
 
 -- Generate Time Series
 instance (Arbitrary a) => Arbitrary (TS.Series a) where
-  arbitrary = do
-      vs <- arbitrary
-      return $ TS.tsSeries [1..] vs
+    arbitrary = do
+        vs <- arbitrary
+        return $ TS.tsSeries [1..] vs
