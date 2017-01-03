@@ -215,6 +215,6 @@ zip' _ [] = []
 zip' (x:xs) (y:ys)
     | dpIndex x > dpIndex y = zip' xs (y:ys)
     | dpIndex x < dpIndex y = zip' (x:xs) ys
-    | otherwise = DP (dpIndex x) (dpValue x, dpValue y) : zip' xs ys
+    | otherwise             = DP (dpIndex x) (dpValue x, dpValue y) : zip' xs ys
 
 
