@@ -181,7 +181,7 @@ resample' utc res y (x:xs)
         ty = abs $ realToFrac (diffUTCTime utc (dpIndex y))
 
 
--- | Group data by given time frame
+-- | Group data by a given time frame
 -- This function expect that the time series has enough data points to group values.
 groupBy :: TimeResolution   -- ^ Window size
         -> ([a] -> b)       -- ^ Function applied to group values
