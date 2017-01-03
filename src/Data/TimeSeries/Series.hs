@@ -204,6 +204,7 @@ groupBy' utc res xs = (utc, ys) : groupBy' utc2 res zs
 
 
 -- | Zip 2 series into one. Only keep elements with the same index value.
+-- This function also assumes that data points are sorted by index value
 zip :: Series a -> Series b -> Series (a, b)
 zip (Series xs) (Series ys) = Series $ zip' xs ys
 
