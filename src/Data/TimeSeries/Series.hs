@@ -29,9 +29,10 @@ module Data.TimeSeries.Series (
     , rolling
     , resample
     , size
+    , zip
     ) where
 
-import Prelude hiding (max, min)
+import Prelude hiding (max, min, zip)
 import Data.Time ( UTCTime
                  , diffUTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
@@ -200,3 +201,19 @@ groupBy' utc res xs = (utc, ys) : groupBy' utc2 res zs
     where
         utc2 = nextTime res utc
         (ys, zs) = break (\(DP x _) -> x >= utc2) xs
+
+
+-- | Zip 2 series into one. Only keep elements with the same index value.
+zip :: Series a -> Series b -> Series (a, b)
+zip (Series xs) (Series ys) = Series $ zip' xs ys
+
+
+zip' :: [DataPoint a] -> [DataPoint b] -> [DataPoint (a, b)]
+zip' [] _ = []
+zip' _ [] = []
+zip' (x:xs) (y:ys)
+    | dpIndex x > dpIndex y = zip' xs (y:ys)
+    | dpIndex x < dpIndex y = zip' (x:xs) ys
+    | otherwise = DP (dpIndex x) (dpValue x, dpValue y) : zip' xs ys
+
+

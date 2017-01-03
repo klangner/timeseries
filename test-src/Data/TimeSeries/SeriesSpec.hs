@@ -125,6 +125,14 @@ spec = do
         TS.groupBy (TS.seconds 2) sum xs `shouldBe` TS.tsSeries [1, 3, 5] [3.0, 7.0, 11.0]
 
 
+  describe "zip" $ do
+
+    it "the same index" $ do
+        let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        let ys = TS.tsSeries [1..] [2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
+        fmap (\(x,y) -> x+y) (TS.zip xs ys) `shouldBe` TS.tsSeries [1..] [3.0, 5.0, 7.0, 9.0, 11.0, 13.0]
+
+
 
 -- Convert to UTC Time from timestamp
 utcFromSeconds :: Integer -> UTCTime

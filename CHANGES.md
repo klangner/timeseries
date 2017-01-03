@@ -2,6 +2,7 @@
 
   * Removed implicit Prelude from cabal
   * Implemented groupBy
+  * Implemented zip
 
 
 # Version 0.4 (2016-12-22)
