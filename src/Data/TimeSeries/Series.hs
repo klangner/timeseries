@@ -22,6 +22,9 @@ module Data.TimeSeries.Series (
     , toList
     , values
     -- * Selecting data from series
+    , firstElem
+    , lastElem
+    , elemAt
     , slice
     , valueAt
     -- * Transformations
@@ -105,7 +108,25 @@ size :: Series a -> Int
 size (Series xs) = length xs
 
 
--- | Return data point value at given index
+-- | Get first element of the time series (if exists)
+firstElem :: Series a -> Maybe (DataPoint a)
+firstElem (Series []) = Nothing
+firstElem (Series (x:_)) = Just x
+
+
+-- | Get last element of the time series (if exists)
+lastElem :: Series a -> Maybe (DataPoint a)
+lastElem (Series []) = Nothing
+lastElem (Series xs) = Just (last xs)
+
+
+-- | Get element by index.
+elemAt :: Int -> Series a -> Maybe (DataPoint a)
+elemAt n (Series xs)
+    | n < length xs = Just $ xs !! n
+    | otherwise     = Nothing
+
+
 -- Complexity O(n)
 --
 -- >valueAt (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 2 == Just 52.22

@@ -72,6 +72,18 @@ spec = do
         let xs = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.65, 11.0]
         TS.size xs `shouldBe` 5
 
+    it "first element" $ do
+        let xs = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.65, 11.0]
+        fmap TS.dpValue (TS.firstElem xs) `shouldBe` Just 10.0
+
+    it "last element" $ do
+        let xs = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.65, 11.0]
+        fmap TS.dpValue (TS.lastElem xs) `shouldBe` Just 11.0
+
+    it "element by index" $ do
+        let xs = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.65, 11.0]
+        fmap TS.dpValue (TS.elemAt 2 xs) `shouldBe` Just 32.4
+
     it "map over series" $ do
         let xs = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.65, 11.0]
         let ys = fmap (+ 2) xs

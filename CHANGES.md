@@ -3,6 +3,7 @@
   * Removed implicit Prelude from cabal
   * Implemented groupBy
   * Implemented zip
+  * Added elemAt, firstElem, lastElem
 
 
 # Version 0.4 (2016-12-22)
