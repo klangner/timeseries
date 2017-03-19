@@ -3,18 +3,21 @@
 
 # Welcome to Haskell Time Series library
 
-Implemented functionality:
+Library for processing Time Series which are functions from Time to real value.
 
-  * Reading and writing from CSV file
-  * Base operations on time series:
-    * get value
-    * slice
-  * Mapping and folding Series
-  * Rolling window, Resampling and groupBy functions with time resolution
+
+# Features
+
+  * [x] Reading and writing from CSV file
+  * [x] Slice series
+  * [x] Mapping over Series
+  * [x] Folding Series
+  * [x] Rolling window
+  * [x] Resampling and groupBy
   * Calculate statistics
-    * min, max
-    * median, variance, standard deviation
-  * Finding sessions (periods of activity)
+    * [x] min, max
+    * [x] median, variance, standard deviation
+  * [x] Finding sessions (periods of activity)
 
 
 ## Installation
