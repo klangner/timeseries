@@ -13,7 +13,7 @@ module Data.TimeSeries.Stats
     ) where
 
 import Prelude hiding (max, min)
-import Data.TimeSeries.Series (TimeSeries)
+import Data.TimeSeries (TimeSeries)
 
 
 -- | Return Time Series mean

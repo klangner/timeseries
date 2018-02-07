@@ -5,7 +5,7 @@ import Data.Time hiding (months)
 import Test.Hspec
 import Test.QuickCheck
 
-import Data.TimeSeries
+import Data.TimeSeries.Time
 
 
 spec :: Spec

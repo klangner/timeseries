@@ -44,13 +44,12 @@ library
                     vector >= 0.12 && < 1
   exposed-modules:
                     Data.TimeSeries
-                    Data.TimeSeries.Sessions
-  other-modules:
-                    Data.TimeSeries.Series
-                    Data.TimeSeries.Stats
-                    Data.TimeSeries.Time
                     Data.TimeSeries.IO.CSVReader
                     Data.TimeSeries.IO.CSVWriter
+                    Data.TimeSeries.Sessions
+                    Data.TimeSeries.Stats
+  other-modules:
+                    Data.TimeSeries.Time
 
 test-suite unit-tests
   type:             exitcode-stdio-1.0
@@ -73,11 +72,10 @@ test-suite unit-tests
                     vector >= 0.12 && < 1
   other-modules:
                     Data.TimeSeries
-                    Data.TimeSeries.Series
+                    Data.TimeSeriesSpec
                     Data.TimeSeries.Sessions
                     Data.TimeSeries.Stats
                     Data.TimeSeries.Time
-                    Data.TimeSeries.SeriesSpec
                     Data.TimeSeries.StatsSpec
                     Data.TimeSeries.SessionsSpec
                     Data.TimeSeries.TimeSpec

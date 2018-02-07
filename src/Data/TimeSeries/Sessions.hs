@@ -15,7 +15,7 @@ module Data.TimeSeries.Sessions
 
 import Prelude
 import Data.Time (UTCTime)
-import Data.TimeSeries.Series (TimeSeries, toList)
+import Data.TimeSeries (TimeSeries, toList)
 
 import Data.TimeSeries.Time(TimeResolution, nextTime)
 

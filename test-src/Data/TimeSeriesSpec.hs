@@ -1,4 +1,4 @@
-module Data.TimeSeries.SeriesSpec (spec) where
+module Data.TimeSeriesSpec (spec) where
 
 import Prelude
 import Test.Hspec
@@ -102,14 +102,14 @@ spec = do
 
     it "sum" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
-        TS.rolling (TS.seconds 2) sum xs `shouldBe` TS.tsSeries [2..] [3.0, 5.0, 7.0, 9.0]
+        TS.rolling (seconds 2) sum xs `shouldBe` TS.tsSeries [2..] [3.0, 5.0, 7.0, 9.0]
 
 
   describe "Smoothing" $ do
 
     it "mean" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
-        TS.rolling (TS.seconds 3) (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
+        TS.rolling (seconds 3) (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
 
 
   describe "Resampling" $ do
@@ -134,7 +134,7 @@ spec = do
 
     it "sum" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-        TS.groupBy (TS.seconds 2) sum xs `shouldBe` TS.tsSeries [1, 3, 5] [3.0, 7.0, 11.0]
+        TS.groupBy (seconds 2) sum xs `shouldBe` TS.tsSeries [1, 3, 5] [3.0, 7.0, 11.0]
 
 
   describe "zip" $ do

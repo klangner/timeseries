@@ -17,8 +17,7 @@ import Data.Csv
 import Data.ByteString.Lazy (writeFile)
 import Data.Text.Time ( formatISODateTime )
 
-import Data.TimeSeries.Series ( TimeSeries
-                              , toList )
+import Data.TimeSeries ( TimeSeries, toList )
 
 
 -- | Load data from CSV file and create Time Series from it

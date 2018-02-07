@@ -22,10 +22,10 @@ import qualified Data.Csv as CSV
 import qualified Data.Vector as V
 import           Data.Time (UTCTime)
 
-import           Data.TimeSeries.Series ( TimeSeries
-                                        , emptySeries
-                                        , series
-                                        )
+import           Data.TimeSeries ( TimeSeries
+                                 , emptySeries
+                                 , series
+                                 )
 
 -- | Define if csv file has header
 data HasHeader = HasHeader | NoHeader
