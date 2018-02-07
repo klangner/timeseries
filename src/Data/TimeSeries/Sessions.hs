@@ -15,7 +15,7 @@ module Data.TimeSeries.Sessions
 
 import Prelude
 import Data.Time (UTCTime)
-import Data.TimeSeries.Series (Series, toList)
+import Data.TimeSeries.Series (TimeSeries, toList)
 
 import Data.TimeSeries.Time(TimeResolution, nextTime)
 
@@ -33,7 +33,7 @@ data Session = Session { sessionStart :: UTCTime
 
 
 -- | Find all session in a given Time Series
-find :: TimeResolution -> Series Bool -> [Session]
+find :: TimeResolution -> TimeSeries Bool -> [Session]
 find dt ts = map (uncurry Session) xs'
     where
         xs = findChanges False (toList ts)

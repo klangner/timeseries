@@ -11,7 +11,7 @@ Definition and basic operation on Series.
 module Data.TimeSeries.Series (
     -- * Series datatype
       DataPoint
-    , Series
+    , TimeSeries
     , dpIndex
     , dpValue
     -- * Create series
@@ -57,25 +57,25 @@ instance Foldable DataPoint where
 
 -- | Data structure for holding Series.
 -- Implementation should be hidden so it can be changed in the future
-data Series a = Series [DataPoint a]
+data TimeSeries a = TimeSeries [DataPoint a]
     deriving (Show, Eq)
 
-instance Functor Series where
-    fmap f (Series xs) = Series (map (fmap f) xs)
+instance Functor TimeSeries where
+    fmap f (TimeSeries xs) = TimeSeries (map (fmap f) xs)
 
-instance Foldable Series where
-    foldMap f (Series xs) = foldMap (foldMap f) xs
+instance Foldable TimeSeries where
+    foldMap f (TimeSeries xs) = foldMap (foldMap f) xs
     length = size
 
 
 -- | Create empty series.
-emptySeries :: Series a
-emptySeries = Series []
+emptySeries :: TimeSeries a
+emptySeries = TimeSeries []
 
 
 -- | Create series from UTCTime and value.
-series :: [(UTCTime, a)] -> Series a
-series xs = Series $ map (uncurry DP) xs
+series :: [(UTCTime, a)] -> TimeSeries a
+series xs = TimeSeries $ map (uncurry DP) xs
 
 
 -- | Create time series from timestamps and values
@@ -84,18 +84,18 @@ series xs = Series $ map (uncurry DP) xs
 --
 tsSeries :: [Integer]       -- ^ List of index value given as number of seconds
          -> [a]             -- ^ List of value
-         -> Series a        -- ^ Created Series
-tsSeries ts vs = Series (zipWith DP idx vs)
+         -> TimeSeries a    -- ^ Created Series
+tsSeries ts vs = TimeSeries (zipWith DP idx vs)
     where idx = map (posixSecondsToUTCTime . fromIntegral) ts
 
 
 -- | Convert Time Series to the list.
-toList :: Series a -> [(UTCTime, a)]
-toList (Series xs) = map (\(DP x y) -> (x, y)) xs
+toList :: TimeSeries a -> [(UTCTime, a)]
+toList (TimeSeries xs) = map (\(DP x y) -> (x, y)) xs
 
 
 -- | Get series values as list.
-values :: Series a -> [a]
+values :: TimeSeries a -> [a]
 values ts = map snd (toList ts)
 
 
@@ -104,25 +104,25 @@ values ts = map snd (toList ts)
 --
 -- >size (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) == 3
 --
-size :: Series a -> Int
-size (Series xs) = length xs
+size :: TimeSeries a -> Int
+size (TimeSeries xs) = length xs
 
 
 -- | Get first element of the time series (if exists)
-firstElem :: Series a -> Maybe (DataPoint a)
-firstElem (Series []) = Nothing
-firstElem (Series (x:_)) = Just x
+firstElem :: TimeSeries a -> Maybe (DataPoint a)
+firstElem (TimeSeries []) = Nothing
+firstElem (TimeSeries (x:_)) = Just x
 
 
 -- | Get last element of the time series (if exists)
-lastElem :: Series a -> Maybe (DataPoint a)
-lastElem (Series []) = Nothing
-lastElem (Series xs) = Just (last xs)
+lastElem :: TimeSeries a -> Maybe (DataPoint a)
+lastElem (TimeSeries []) = Nothing
+lastElem (TimeSeries xs) = Just (last xs)
 
 
 -- | Get element by index.
-elemAt :: Int -> Series a -> Maybe (DataPoint a)
-elemAt n (Series xs)
+elemAt :: Int -> TimeSeries a -> Maybe (DataPoint a)
+elemAt n (TimeSeries xs)
     | n < length xs = Just $ xs !! n
     | otherwise     = Nothing
 
@@ -133,9 +133,9 @@ elemAt n (Series xs)
 -- >valueAt (Series [DP 1 41.3, DP 2 52.22, DP 3 3.0]) 5 == Nothing
 --
 valueAt :: UTCTime      -- ^ Index position
-        -> Series a     -- ^ Input Series
+        -> TimeSeries a     -- ^ Input Series
         -> Maybe a      -- ^ Value at given index
-valueAt ts (Series xs) = safeHead [y | DP x y <- xs, x == ts]
+valueAt ts (TimeSeries xs) = safeHead [y | DP x y <- xs, x == ts]
     where safeHead [] = Nothing
           safeHead (i:_) = Just i
 
@@ -148,18 +148,18 @@ valueAt ts (Series xs) = safeHead [y | DP x y <- xs, x == ts]
 --
 slice :: UTCTime        -- ^ Start time (inclusive)
       -> UTCTime        -- ^ End time (inclusive)
-      -> Series a       -- ^ Input series
-      -> Series a       -- ^ Sliced Series
-slice start end (Series xs) = Series [DP x y | DP x y <- xs, x >= start && x <= end]
+      -> TimeSeries a   -- ^ Input series
+      -> TimeSeries a   -- ^ Sliced Series
+slice start end (TimeSeries xs) = TimeSeries [DP x y | DP x y <- xs, x >= start && x <= end]
 
 
 -- | Apply rolling window to create a new Series.
 -- Rolling window is also called Sliding Window.
 rolling :: TimeResolution   -- ^ Window size
         -> ([a] -> b)       -- ^ Function applied to each window
-        -> Series a         -- ^ Input Series
-        -> Series b         -- ^ Converted Series
-rolling dt f (Series xs) = Series $ map (\(i, vs) -> DP i (f vs)) (windows dt xs)
+        -> TimeSeries a     -- ^ Input Series
+        -> TimeSeries b     -- ^ Converted Series
+rolling dt f (TimeSeries xs) = TimeSeries $ map (\(i, vs) -> DP i (f vs)) (windows dt xs)
 
 -- Create rolling windows based on given delta time.
 windows :: TimeResolution -> [DataPoint a] -> [(UTCTime, [a])]
@@ -169,7 +169,7 @@ windows dt xs = g ys : if length xs > length ys then windows dt (tail xs) else [
         -- Take data points from window based on time difference [DataPoint]
         ys = takeWhile (isInTimeRange dt (head xs)) xs
         -- Convert [DataPoint a] -> (UTCTime, [a])
-        g vs = (dpIndex (last vs), values (Series vs))
+        g vs = (dpIndex (last vs), values (TimeSeries vs))
 
 -- Check if two DataPoints are closer then given time difference
 isInTimeRange :: TimeResolution -> DataPoint a -> DataPoint a -> Bool
@@ -183,10 +183,10 @@ isInTimeRange dt (DP i _) (DP j _) = j < nextTime dt i
 resample :: Fractional a
          => UTCTime             -- ^ Starting time
          -> TimeResolution      -- ^ Resampling resolution
-         -> Series a            -- ^ Input series
-         -> Series a            -- ^ Resampled series
-resample _ _ (Series []) = emptySeries
-resample utc res (Series xs) = Series (resample' utc res (head xs) xs)
+         -> TimeSeries a        -- ^ Input series
+         -> TimeSeries a        -- ^ Resampled series
+resample _ _ (TimeSeries []) = emptySeries
+resample utc res (TimeSeries xs) = TimeSeries (resample' utc res (head xs) xs)
 
 -- | Resample based on list
 resample' :: Fractional a => UTCTime -> TimeResolution -> DataPoint a -> [DataPoint a] -> [DataPoint a]
@@ -206,10 +206,10 @@ resample' utc res y (x:xs)
 -- This function expect that the time series has enough data points to group values.
 groupBy :: TimeResolution   -- ^ Window size
         -> ([a] -> b)       -- ^ Function applied to group values
-        -> Series a         -- ^ Input Series
-        -> Series b         -- ^ Converted Series
-groupBy _ _ (Series []) = emptySeries
-groupBy res f (Series xs) = Series (map (\(i, vs) -> DP i (f (g vs))) (groupBy' utc res xs))
+        -> TimeSeries a     -- ^ Input Series
+        -> TimeSeries b     -- ^ Converted Series
+groupBy _ _ (TimeSeries []) = emptySeries
+groupBy res f (TimeSeries xs) = TimeSeries (map (\(i, vs) -> DP i (f (g vs))) (groupBy' utc res xs))
     where
         g :: [DataPoint a] -> [a]
         g  = map dpValue
@@ -226,8 +226,8 @@ groupBy' utc res xs = (utc, ys) : groupBy' utc2 res zs
 
 -- | Zip 2 series into one. Only keep elements with the same index value.
 -- This function also assumes that data points are sorted by index value
-zip :: Series a -> Series b -> Series (a, b)
-zip (Series xs) (Series ys) = Series $ zip' xs ys
+zip :: TimeSeries a -> TimeSeries b -> TimeSeries (a, b)
+zip (TimeSeries xs) (TimeSeries ys) = TimeSeries $ zip' xs ys
 
 
 zip' :: [DataPoint a] -> [DataPoint b] -> [DataPoint (a, b)]
