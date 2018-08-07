@@ -3,7 +3,7 @@
 
 # Welcome to Haskell Time Series library
 
-Library for processing Time Series which are functions from Time to real value.
+Library for processing Time Series data.
 
 
 # Features
