@@ -1,5 +1,5 @@
 .idea
-timeseries.iml
+*.iml
 .stack-work
 out
 cabal.sandbox.config

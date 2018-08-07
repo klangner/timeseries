@@ -1,4 +1,4 @@
-module Data.TimeSeries.SeriesSpec (spec) where
+module Data.TimeSeriesSpec (spec) where
 
 import Prelude
 import Test.Hspec
@@ -13,7 +13,7 @@ import qualified Data.TimeSeries as TS
 import Data.TimeSeries.Time (seconds)
 
 
-sampleSeries :: TS.Series Double
+sampleSeries :: TS.TimeSeries Double
 sampleSeries = TS.tsSeries [1..] [10.0, 1.2, 32.4, 0.6, 11.0]
 
 
@@ -23,16 +23,16 @@ spec = do
   describe "Properties" $ do
 
     it "toList" $ property $
-        \ts -> (TS.series . TS.toList) ts == (ts :: TS.Series Double)
+        \ts -> (TS.series . TS.toList) ts == (ts :: TS.TimeSeries Double)
 
     it "fold over series" $ property $
-        \ts -> (foldr (+) 0.0 ts) - ((sum . (map snd) . TS.toList) (ts :: TS.Series Double)) < 10**(-6)
+        \ts -> (foldr (+) 0.0 ts) - ((sum . (map snd) . TS.toList) (ts :: TS.TimeSeries Double)) < 10**(-6)
 
     it "resampling the same" $ property $
-        \ts -> TS.resample (posixSecondsToUTCTime 1) (seconds 1) ts == (ts :: TS.Series Double)
+        \ts -> TS.resample (posixSecondsToUTCTime 1) (seconds 1) ts == (ts :: TS.TimeSeries Double)
 
     it "groupBy the same" $ property $
-        \ts -> TS.groupBy (seconds 1) sum ts == (ts :: TS.Series Double)
+        \ts -> TS.groupBy (seconds 1) sum ts == (ts :: TS.TimeSeries Double)
 
 
   describe "Selecting sub Series" $ do
@@ -102,14 +102,14 @@ spec = do
 
     it "sum" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
-        TS.rolling (TS.seconds 2) sum xs `shouldBe` TS.tsSeries [2..] [3.0, 5.0, 7.0, 9.0]
+        TS.rolling (seconds 2) sum xs `shouldBe` TS.tsSeries [2..] [3.0, 5.0, 7.0, 9.0]
 
 
   describe "Smoothing" $ do
 
     it "mean" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0]
-        TS.rolling (TS.seconds 3) (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
+        TS.rolling (seconds 3) (S.mean . V.fromList) xs `shouldBe` TS.tsSeries [3..] [2.0, 3.0, 4.0]
 
 
   describe "Resampling" $ do
@@ -134,7 +134,7 @@ spec = do
 
     it "sum" $ do
         let xs = TS.tsSeries [1..] [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-        TS.groupBy (TS.seconds 2) sum xs `shouldBe` TS.tsSeries [1, 3, 5] [3.0, 7.0, 11.0]
+        TS.groupBy (seconds 2) sum xs `shouldBe` TS.tsSeries [1, 3, 5] [3.0, 7.0, 11.0]
 
 
   describe "zip" $ do
@@ -152,7 +152,7 @@ utcFromSeconds = posixSecondsToUTCTime . fromIntegral
 
 
 -- Generate Time Series
-instance (Arbitrary a) => Arbitrary (TS.Series a) where
+instance (Arbitrary a) => Arbitrary (TS.TimeSeries a) where
     arbitrary = do
         vs <- arbitrary
         return $ TS.tsSeries [1..] vs

@@ -17,13 +17,12 @@ import Data.Csv
 import Data.ByteString.Lazy (writeFile)
 import Data.Text.Time ( formatISODateTime )
 
-import Data.TimeSeries.Series ( Series
-                              , toList )
+import Data.TimeSeries ( TimeSeries, toList )
 
 
 -- | Load data from CSV file and create Time Series from it
 -- As a first argument provide function to convert date from ByteString to UTCTime
-saveCSV :: Series Double -> FilePath -> IO ()
+saveCSV :: TimeSeries Double -> FilePath -> IO ()
 saveCSV ts filePath = do
     let rs = map (first formatISODateTime) (toList ts)
     let rs' = encode rs
