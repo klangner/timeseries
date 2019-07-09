@@ -4,21 +4,21 @@ import Graphics.Rendering.Chart.Easy
 import Graphics.Rendering.Chart.Backend.Diagrams
 import Data.Time
 import System.Process
+import qualified Data.Vector as V
 
 import Data.Text.Time (parseISODateTime)
 import qualified Data.TimeSeries as TS
+import qualified Data.TimeSeries.IO.CSV as CSV
 
-
-signal :: Num a => TS.Series a -> [(LocalTime, a)]
-signal ts = map (first (utcToLocalTime utc)) (TS.toList ts)
 
 main = do
     args <- getArgs
     let fn = head args
-    ts <- TS.loadCSV TS.HasHeader parseISODateTime fn
+    ts <- CSV.load CSV.HasHeader parseISODateTime fn
     toFile def "dist/plot-series.svg" $ do
         layout_title .= fn
         setColors [opaque blue, opaque red]
-        plot (line "" [signal ts])
+        let xs = V.zip (TS.index ts) (TS.values ts)
+        plot (line "" [V.toList xs])
     putStrLn "Plot saved to: dist/plot-series.svg"
     createProcess (shell "firefox dist/plot-series.svg")
