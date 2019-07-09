@@ -4,17 +4,19 @@ module Data.TimeSeries.Index (
     size
 ) where
 
-import Data.Int
+import Prelude hiding (max, min, zip)
 import qualified Data.Vector as V
+import           Data.Time (UTCTime)
+import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
 
-type Timestamp = Int64
+data DateTimeIndex = MkIndex (V.Vector UTCTime)
 
-data DateTimeIndex = MkIndex (V.Vector Timestamp)
-
--- | Create index from list of timestamps
-fromTimestamps :: [Timestamp] -> DateTimeIndex
-fromTimestamps xs = MkIndex (V.fromList xs)
+-- | Create index from list of timestamps in seconds
+fromTimestamps :: [Int] -> DateTimeIndex
+fromTimestamps xs = MkIndex (V.fromList (map f xs))
+    where
+        f = posixSecondsToUTCTime . fromIntegral
 
 
 -- | Get size (length) of the index
