@@ -1,9 +1,9 @@
 name:           timeseries
-version:        0.5.0
+version:        0.6.0
 synopsis:       Library for Time Series processing
 License:        BSD3
 License-file:   LICENSE
-Copyright:      (c) 2016 Krzysztof Langner
+Copyright:      (c) 2019 Krzysztof Langner
 stability:      Unstable interface, incomplete features.
 Extra-Source-Files:
                 README.md,
@@ -14,7 +14,7 @@ Extra-Source-Files:
                 benchmark/*.hs,
                 benchmark/*.csv
 description:
-    Library for processing time series data.
+    Library for processing Time Series data.
 
 homepage:       https://github.com/klangner/timeseries
 author:         Krzysztof Langner
@@ -34,22 +34,18 @@ library
                     NoImplicitPrelude
   ghc-options:      -O2 -Wall -fwarn-tabs -funbox-strict-fields
   build-depends:
-                    base >= 4.7 && < 5,
-                    bytestring < 0.11,
-                    cassava >= 0.4 && < 0.6,
+                    base >= 4.12 && < 5,
+                    bytestring > 0.10 && < 0.11,
+                    cassava >= 0.5 && < 0.6,
                     statistics < 1,
                     text < 2,
-                    text-time < 1,
+                    -- text-time < 1,
                     time >= 1.5 && < 2,
                     vector >= 0.12 && < 1
   exposed-modules:
-                    Data.TimeSeries
-                    Data.TimeSeries.IO.CSVReader
-                    Data.TimeSeries.IO.CSVWriter
-                    Data.TimeSeries.Sessions
-                    Data.TimeSeries.Stats
-  other-modules:
-                    Data.TimeSeries.Time
+                    Data.TimeSeries.Index
+  -- other-modules:
+  --                   Data.TimeSeries.Time
 
 test-suite unit-tests
   type:             exitcode-stdio-1.0
@@ -60,28 +56,28 @@ test-suite unit-tests
   ghc-options:      -threaded -rtsopts -fsimpl-tick-factor=500
   build-depends:
                     base >= 4 && <5,
-                    Cabal <2,
+                    Cabal <3,
                     hspec >=2 && <3,
                     QuickCheck >=2.6 && <3,
                     bytestring < 0.11,
-                    cassava >= 0.4 && < 0.6,
+                    cassava >= 0.5 && < 0.6,
                     statistics < 1,
                     text < 2,
-                    text-time < 1,
+                    -- text-time < 1,
                     time >= 1.5 && < 2,
                     vector >= 0.12 && < 1
   other-modules:
-                    Data.TimeSeries
-                    Data.TimeSeriesSpec
-                    Data.TimeSeries.Sessions
-                    Data.TimeSeries.Stats
-                    Data.TimeSeries.Time
-                    Data.TimeSeries.StatsSpec
-                    Data.TimeSeries.SessionsSpec
-                    Data.TimeSeries.TimeSpec
-                    Data.TimeSeries.IO.CSVReader
-                    Data.TimeSeries.IO.CSVWriter
-                    Data.TimeSeries.IO.CSVSpec
+                    Data.TimeSeries.Index
+                    Data.TimeSeries.IndexSpec
+                    -- Data.TimeSeries.Sessions
+                    -- Data.TimeSeries.Stats
+                    -- Data.TimeSeries.Time
+                    -- Data.TimeSeries.StatsSpec
+                    -- Data.TimeSeries.SessionsSpec
+                    -- Data.TimeSeries.TimeSpec
+                    -- Data.TimeSeries.IO.CSVReader
+                    -- Data.TimeSeries.IO.CSVWriter
+                    -- Data.TimeSeries.IO.CSVSpec
   hs-source-dirs:
                     src,
                     test-src

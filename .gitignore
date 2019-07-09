@@ -4,5 +4,6 @@
 out
 cabal.sandbox.config
 .cabal-sandbox
-dist
+dist*
+.ghc*
 .liquid
